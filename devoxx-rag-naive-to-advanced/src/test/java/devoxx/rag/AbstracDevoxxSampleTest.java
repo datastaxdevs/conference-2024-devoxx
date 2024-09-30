@@ -2,8 +2,10 @@ package devoxx.rag;
 
 import com.datastax.astra.client.Collection;
 import com.datastax.astra.client.DataAPIClient;
+import com.datastax.astra.client.DataAPIOptions;
 import com.datastax.astra.client.model.Document;
 import com.datastax.astra.internal.command.LoggingCommandObserver;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.langchain4j.data.document.DocumentSplitter;
 import dev.langchain4j.data.document.loader.FileSystemDocumentLoader;
 import dev.langchain4j.data.document.parser.TextDocumentParser;
@@ -25,44 +27,46 @@ import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.datastax.astra.client.model.SimilarityMetric.COSINE;
 import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
 import static com.datastax.astra.internal.utils.AnsiUtils.yellow;
 import static dev.langchain4j.data.document.loader.FileSystemDocumentLoader.loadDocument;
-import static devoxx.rag.Utilities.ASTRA_API_ENDPOINT;
-import static devoxx.rag.Utilities.ASTRA_TOKEN;
-import static devoxx.rag.Utilities.EMBEDDING_DIMENSION;
-import static devoxx.rag.Utilities.GCP_PROJECT_ENDPOINT;
-import static devoxx.rag.Utilities.GCP_PROJECT_PUBLISHER;
 
 /**
  * Abstract Class for different tests and use cases to share configuration
  */
 public abstract class AbstracDevoxxSampleTest {
 
-
     // ------------------------------------------------------------
     //                           GEMINI STUFF
     // ------------------------------------------------------------
 
-    /** GEMINI SETTINGS. */
-    protected final String GCP_PROJECT_ID        = "devoxxfrance";
-    protected final String GCP_PROJECT_LOCATION  = "us-central1";
+    // Chat Models
     protected final String MODEL_GEMINI_PRO       = "gemini-pro";
     protected final String MODEL_GEMINI_FLASH     = "gemini-flash";
-    protected final String MODEL_GEMINI_EMBEDDING = "gemini-light";
-    protected final String MODEL_EMBEDDING_GECKO  = "textembedding-gecko@001";
+
+    // Embedding Models
+    // https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/text-embeddings-api?hl=en&authuser=2
+    protected final String MODEL_EMBEDDING_GECKO        = "textembedding-gecko@001";
+    protected final String MODEL_EMBEDDING_MULTILINGUAL = "text-multilingual-embedding-002";
+    protected final String MODEL_EMBEDDING_TEXT         = "text-embedding-004";
+    protected final int    MODEL_EMBEDDING_DIMENSION    = 768;
 
     /** Create a the chat model. */
     protected ChatLanguageModel getChatLanguageModel(final String modelName) {
         return VertexAiGeminiChatModel.builder()
-                .project(GCP_PROJECT_ID)
-                .location(GCP_PROJECT_LOCATION)
+                .project(System.getenv("GCP_PROJECT_ID"))
+                .location(System.getenv("GCP_LOCATION"))
                 .modelName(modelName)
                 .build();
     }
@@ -70,8 +74,8 @@ public abstract class AbstracDevoxxSampleTest {
     /** Create a Streaming Chat Model. */
     protected StreamingChatLanguageModel getChatLanguageModelStreaming(final String modelName) {
         return VertexAiGeminiStreamingChatModel.builder()
-                .project(GCP_PROJECT_ID)
-                .location(GCP_PROJECT_LOCATION)
+                .project(System.getenv("GCP_PROJECT_ID"))
+                .location(System.getenv("GCP_LOCATION"))
                 .modelName(modelName)
                 .build();
     }
@@ -79,49 +83,36 @@ public abstract class AbstracDevoxxSampleTest {
     /** Create an Embedding model. */
     protected EmbeddingModel getEmbeddingModel(final String modelName) {
         return VertexAiEmbeddingModel.builder()
-                .project(GCP_PROJECT_ID)
-                .endpoint(GCP_PROJECT_ENDPOINT)
-                .location(GCP_PROJECT_LOCATION)
-                .publisher(GCP_PROJECT_PUBLISHER)
+                .project(System.getenv("GCP_PROJECT_ID"))
+                .endpoint(System.getenv("GCP_VERTEXAI_ENDPOINT"))
+                .location(System.getenv("GCP_LOCATION"))
+                .publisher("google")
                 .modelName(modelName)
                 .build();
     }
-
 
     // ------------------------------------------------------------
     //                ASTRA / CASSANDRA STORE STUFF
     // ------------------------------------------------------------
 
-    public Collection<Document> getCollectionQuote() {
-        Collection<Document> col =  new DataAPIClient(ASTRA_TOKEN)
-                .getDatabase(ASTRA_API_ENDPOINT)
-                .getCollection("quote_store", Document.class);
-        col.registerListener("logger", new LoggingCommandObserver(AbstracDevoxxSampleTest.class));
-        return col;
-    }
+    public static final String ASTRA_TOKEN           = System.getenv("ASTRA_TOKEN_DEVOXX");
+    public static final String ASTRA_API_ENDPOINT    = "https://57fe123e-8f47-4165-babc-0df44136e3fb-us-east1.apps.astra.datastax.com";
 
-    public Collection<Document> createCollectionQuote() {
+    public Collection<Document> createCollection(String name, int dimension) {
         return new DataAPIClient(ASTRA_TOKEN)
                 .getDatabase(ASTRA_API_ENDPOINT)
-                .createCollection("quote_store", EMBEDDING_DIMENSION, COSINE);
+                .createCollection(name, dimension, COSINE);
     }
 
-    public Collection<Document> createCollectionRAG() {
+    public Collection<Document> getCollection(String name) {
         return new DataAPIClient(ASTRA_TOKEN)
                 .getDatabase(ASTRA_API_ENDPOINT)
-                .createCollection("rag_store", EMBEDDING_DIMENSION, COSINE);
-    }
-
-    public Collection<Document> getCollectionRAG() {
-        return new DataAPIClient(ASTRA_TOKEN)
-                .getDatabase(ASTRA_API_ENDPOINT)
-                .getCollection("rag_store");
+                .getCollection(name);
     }
 
     // ------------------------------------------------------------
     //               RAG STUFF
     // ------------------------------------------------------------
-
 
     private static void ingestDocument(String docName, EmbeddingModel model, EmbeddingStore<TextSegment> store) {
         Path path = new File(Objects.requireNonNull(AbstracDevoxxSampleTest.class
@@ -235,6 +226,26 @@ public abstract class AbstracDevoxxSampleTest {
     public dev.langchain4j.data.document.Document loadDocumentText(String fileName) {
         Path path = new File(Objects.requireNonNull(getClass().getResource("/" + fileName)).getFile()).toPath();
         return FileSystemDocumentLoader.loadDocument(path, new TextDocumentParser());
+    }
+
+    @SuppressWarnings("unchecked")
+    public  List<Quote> loadQuotes(String filePath) throws IOException {
+        URL fileURL = getClass().getResource(filePath);
+        File inputFile = new File(fileURL.getFile());
+        LinkedHashMap<String, Object> sampleQuotes = new ObjectMapper().readValue(inputFile, LinkedHashMap.class);
+        List<Quote> result  = new ArrayList<>();
+        AtomicInteger quote_idx = new AtomicInteger(0);
+        ((LinkedHashMap<?,?>) sampleQuotes.get("quotes")).forEach((k,v) -> {
+            ((ArrayList<?>)v).forEach(q -> {
+                Map<String, Object> entry = (Map<String,Object>) q;
+                String author = (String) k;//(String) entry.get("author");
+                String body = (String) entry.get("body");
+                List<String> tags = (List<String>) entry.get("tags");
+                String rowId = "q_" + author + "_" + quote_idx.getAndIncrement();
+                result.add(new Quote(rowId, author, tags, body));
+            });
+        });
+        return result;
     }
 
 
