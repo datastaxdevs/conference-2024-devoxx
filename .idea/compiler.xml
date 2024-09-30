@@ -6,10 +6,19 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="devoxx-genai-langchain4j" />
-        <module name="devoxx-genai-utilities" />
-        <module name="devoxx-genai-langchain4j-gemini" />
+      </profile>
+      <profile name="Annotation profile for Langchain4j and Palm" enabled="true">
+        <sourceOutputDir name="../devoxx-genai-langchain4j/target/generated-sources/annotations" />
+        <sourceTestOutputDir name="../devoxx-genai-langchain4j/target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="devoxx-genai-langchain4j" target="21" />
+      <module name="devoxx-genai-langchain4j-gemini" target="21" />
+      <module name="devoxx-genai-parent" target="21" />
+      <module name="devoxx-genai-utilities" target="21" />
+      <module name="devoxx-rag-naive-to-advanced" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>
