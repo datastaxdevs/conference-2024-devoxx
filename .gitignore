@@ -10,13 +10,13 @@ sec
 .cache
 
 # idea conf files
-#.idea
+.idea
 *.ipr
 *.iws
 *.iml
 
 # building
-#target
+target
 build
 tmp
 dist
