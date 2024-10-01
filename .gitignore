@@ -16,7 +16,7 @@ sec
 *.iml
 
 # building
-target
+#target
 build
 tmp
 dist
