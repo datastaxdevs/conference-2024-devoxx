@@ -1,4 +1,4 @@
-package devoxx.rag._3_search._3_ProcessProcessing;
+package devoxx.rag._4_advanced_rag_query._3_ProcessProcessing;
 
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.cohere.CohereScoringModel;

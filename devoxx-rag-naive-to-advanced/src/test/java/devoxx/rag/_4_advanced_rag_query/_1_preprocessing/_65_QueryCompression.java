@@ -1,4 +1,4 @@
-package devoxx.rag._3_search._1_preprocessing;
+package devoxx.rag._4_advanced_rag_query._1_preprocessing;
 
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.rag.DefaultRetrievalAugmentor;

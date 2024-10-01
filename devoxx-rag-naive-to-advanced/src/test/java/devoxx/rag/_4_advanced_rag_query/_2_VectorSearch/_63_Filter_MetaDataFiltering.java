@@ -1,4 +1,4 @@
-package devoxx.rag._3_search._2_VectorSearch;
+package devoxx.rag._4_advanced_rag_query._2_VectorSearch;
 
 import com.datastax.astra.langchain4j.store.embedding.AstraDbEmbeddingStore;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;

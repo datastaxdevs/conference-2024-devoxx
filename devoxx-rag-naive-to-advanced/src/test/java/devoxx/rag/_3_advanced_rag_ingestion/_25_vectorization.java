@@ -1,11 +1,11 @@
-package devoxx.rag._2_ingestion._4_embedding;
+package devoxx.rag._3_advanced_rag_ingestion;
 
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class _02_Tokenization {
+public class _25_vectorization {
 
     String chunk = "Devoxx is the greatest conference to developer to know about the latest innovations in the tech world";
 

@@ -1,4 +1,4 @@
-package devoxx.rag._1_naive;
+package devoxx.rag._2_naive_rag;
 
 import com.datastax.astra.client.exception.TooManyDocumentsToCountException;
 import com.datastax.astra.langchain4j.store.embedding.AstraDbEmbeddingStore;
@@ -33,7 +33,7 @@ import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
 import static com.datastax.astra.internal.utils.AnsiUtils.yellow;
 import static java.util.stream.Collectors.joining;
 
-public class _10_naive_rag_astra extends AbstracDevoxxSampleTest {
+public class _20_naive_rag_astra extends AbstracDevoxxSampleTest {
 
     String storeName = "naive_rag";
 

@@ -1,4 +1,4 @@
-package devoxx.rag._2_ingestion._4_embedding;
+package devoxx.rag._4_advanced_rag_query;
 
 import com.datastax.astra.client.model.Document;
 import com.datastax.astra.langchain4j.store.embedding.AstraDbEmbeddingStore;

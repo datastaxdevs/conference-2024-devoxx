@@ -175,11 +175,10 @@ public abstract class AbstracDevoxxSampleTest {
      *      AI Response
      */
     protected static void prettyPrint(Response<AiMessage> response) {
-        System.out.println(cyan("===================================================="));
-        System.out.println(cyan("===                  RESPONSE                      ="));
-        System.out.println(cyan("====================================================\n"));
-        System.out.println(yellow(response.content().text().replaceAll("\\n\\n", "\\n")));
+        System.out.println(cyan("RESPONSE TEXT:"));
+        System.out.println(response.content().text().replaceAll("\\n\\n", "\\n"));
         System.out.println();
+        System.out.println(cyan("RESPONSE METADATA:"));
         if (response.finishReason()!=null) {
             System.out.println("Finish Reason : " + cyan(response.finishReason().toString()));
         }
@@ -190,16 +189,7 @@ public abstract class AbstracDevoxxSampleTest {
         }
     }
 
-    /** Streaming handler to log results. */
-    public static class PrettyPrintStreamingResponseHandler
-            implements StreamingResponseHandler<AiMessage> {
-       @Override
-       public void onNext(String s) { System.out.println(s); }
-       @Override
-       public void onComplete(Response<AiMessage> response) {  prettyPrint(response);}
-       @Override
-       public void onError(Throwable throwable) { System.out.println("Error : " + throwable.getMessage());}
-    }
+
 
     protected static String formatLongString(String input) {
         int limit = 100;

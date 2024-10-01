@@ -1,4 +1,4 @@
-package devoxx.rag._3_search._3_ProcessProcessing;
+package devoxx.rag._4_advanced_rag_query._3_ProcessProcessing;
 
 import devoxx.rag.AbstracDevoxxSampleTest;
 import org.junit.jupiter.api.Test;

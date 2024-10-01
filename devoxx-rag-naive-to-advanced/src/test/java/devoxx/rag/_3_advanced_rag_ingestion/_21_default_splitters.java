@@ -1,4 +1,4 @@
-package devoxx.rag._2_ingestion._3_chunking;
+package devoxx.rag._3_advanced_rag_ingestion;
 
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.splitter.DocumentByCharacterSplitter;
@@ -16,7 +16,7 @@ import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
 /**
  * CHUNKING DOCUMENTS
  */
-public class _21_DocumentSplitter extends AbstracDevoxxSampleTest  {
+public class _21_default_splitters extends AbstracDevoxxSampleTest  {
 
     @Test
     public void should_chunk_document_recursive() {
