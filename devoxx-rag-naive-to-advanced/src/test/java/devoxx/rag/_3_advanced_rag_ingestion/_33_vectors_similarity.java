@@ -37,8 +37,8 @@ public class _33_vectors_similarity extends AbstracDevoxxSampleTest  {
 
     @Test
     public void should_show_different_similarities() {
+        // Not multilingual
         var embeddingModel = new AllMiniLmL6V2QuantizedEmbeddingModel();
-
         Response<Embedding> embeddingOne = embeddingModel.embed("baby dog");
         Response<Embedding> embeddingTwo = embeddingModel.embed("puppy");
 
@@ -54,5 +54,27 @@ public class _33_vectors_similarity extends AbstracDevoxxSampleTest  {
                 dotProductSimilarity(embeddingOne.content().vectorAsList(),
                         embeddingTwo.content().vectorAsList()));
     }
+
+
+    @Test
+    public void should_show_multilingual() {
+        // Not multilingual
+        var embeddingModel = getEmbeddingModel(MODEL_EMBEDDING_MULTILINGUAL);
+        Response<Embedding> embeddingOne = embeddingModel.embed("baby dog");
+        Response<Embedding> embeddingTwo = embeddingModel.embed("puppy");
+
+        // Cosine Similarity
+        System.out.println(cyan("    Cosine Similarity: ") +
+                CosineSimilarity.between(embeddingOne.content(), embeddingTwo.content()));
+
+        System.out.println(cyan(" Euclidean Similarity: ") +
+                euclideanDistance(embeddingOne.content().vectorAsList(),
+                        embeddingTwo.content().vectorAsList()));
+
+        System.out.println(cyan("DotProduct Similarity: ") +
+                dotProductSimilarity(embeddingOne.content().vectorAsList(),
+                        embeddingTwo.content().vectorAsList()));
+    }
+
 
 }

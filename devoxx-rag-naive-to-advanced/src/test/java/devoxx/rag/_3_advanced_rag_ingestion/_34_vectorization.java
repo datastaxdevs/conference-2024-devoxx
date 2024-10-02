@@ -85,7 +85,7 @@ public class _34_vectorization {
     }
 
     @Test
-    public void gemeni_tokenizer() throws IOException {
+    public void gemini_tokenizer() throws IOException {
         Path modelFile = Paths.get("src/test/resources/gemini/gemini-tokenizer.model");
         if (Files.notExists(modelFile)) {
             throw new FileNotFoundException("Model file not found");

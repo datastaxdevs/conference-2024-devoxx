@@ -20,17 +20,18 @@ import static dev.langchain4j.store.embedding.filter.MetadataFilterBuilder.metad
 @Slf4j
 class _35_ingest_json extends AbstracDevoxxSampleTest {
 
+    static final String COLLECTION_NAME = "quote";
+
     @Test
     void shouldIngestDocuments() throws IOException {
-        String name = "quote";
-        createCollection(name, MODEL_EMBEDDING_DIMENSION);
+        createCollection(COLLECTION_NAME, MODEL_EMBEDDING_DIMENSION);
         EmbeddingModel embeddingModel = getEmbeddingModel(MODEL_EMBEDDING_TEXT);
-        getCollection(name).deleteAll();
+        getCollection(COLLECTION_NAME).deleteAll();
         List<Document> docs = loadQuotes("/json/philo_quotes.json")       // extraction
                 .stream()
                 .map(quote -> mapAsDocument(embeddingModel, quote))// no chunking (single sentences);
                 .toList();
-        getCollection(name).insertMany(docs);
+        getCollection(COLLECTION_NAME).insertMany(docs);
     }
 
     @Test
@@ -42,7 +43,7 @@ class _35_ingest_json extends AbstracDevoxxSampleTest {
         Embedding questionEmbedding = embeddingModel.embed("We struggle all our life for nothing").content();
 
         // We need the store
-        EmbeddingStore<TextSegment> embeddingStore = new AstraDbEmbeddingStore(getCollection("demo"));
+        EmbeddingStore<TextSegment> embeddingStore = new AstraDbEmbeddingStore(getCollection(COLLECTION_NAME));
 
         // Query with a filter(2)
         log.info("Querying with filter");
@@ -57,7 +58,6 @@ class _35_ingest_json extends AbstracDevoxxSampleTest {
 
 
     Document mapAsDocument(EmbeddingModel embeddingModel , Quote quote) {
-        log.info("Mapping quote: {}", quote.rowId());
         return new Document(quote.rowId())
                 .append("content", quote.body())
                 .append("authors", quote.author())

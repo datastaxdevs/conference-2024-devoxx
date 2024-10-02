@@ -1,5 +1,6 @@
 package devoxx.rag._2_naive_rag;
 
+import com.datastax.astra.client.DataAPIClient;
 import com.datastax.astra.client.exception.TooManyDocumentsToCountException;
 import com.datastax.astra.langchain4j.store.embedding.AstraDbEmbeddingStore;
 import dev.langchain4j.data.document.Document;
@@ -35,7 +36,7 @@ import static java.util.stream.Collectors.joining;
 
 public class _20_naive_rag_astra extends AbstracDevoxxSampleTest {
 
-    String storeName = "naive_rag";
+    static final String COLLECTION_NAME = "naive_rag";
 
     @Test
     public void should_ingest_document() throws TooManyDocumentsToCountException {
@@ -52,10 +53,10 @@ public class _20_naive_rag_astra extends AbstracDevoxxSampleTest {
         System.out.println(cyan("[OK] ") + " Embedding Model '" + MODEL_EMBEDDING_TEXT +"' initialized");
 
         // Embedding Store Astra
-        createCollection(storeName, MODEL_EMBEDDING_DIMENSION);
-        EmbeddingStore<TextSegment> embeddingStore = new AstraDbEmbeddingStore(getCollection(storeName));
+        createCollection(COLLECTION_NAME, MODEL_EMBEDDING_DIMENSION);
+        EmbeddingStore<TextSegment> embeddingStore = new AstraDbEmbeddingStore(getCollection(COLLECTION_NAME));
         embeddingStore.removeAll();
-        System.out.println(cyan("[OK] ") + " Embedding Store '"+storeName+ "' initialized with dimension " + MODEL_EMBEDDING_DIMENSION);
+        System.out.println(cyan("[OK] ") + " Embedding Store '"+ COLLECTION_NAME + "' initialized with dimension " + MODEL_EMBEDDING_DIMENSION);
 
         // Ingest
         EmbeddingStoreIngestor.builder()
@@ -73,7 +74,7 @@ public class _20_naive_rag_astra extends AbstracDevoxxSampleTest {
         String question = "Who is Johnny?";
 
         // RAG CONTEXT
-        EmbeddingStore<TextSegment> embeddingStore = new AstraDbEmbeddingStore(getCollection(storeName));
+        EmbeddingStore<TextSegment> embeddingStore = new AstraDbEmbeddingStore(getCollection(COLLECTION_NAME));
         EmbeddingModel embeddingModel = getEmbeddingModel(MODEL_EMBEDDING_TEXT);
         List<EmbeddingMatch<TextSegment>> relevantEmbeddings = embeddingStore.search(EmbeddingSearchRequest.builder()
                         .queryEmbedding(embeddingModel.embed(question).content())
@@ -110,7 +111,7 @@ public class _20_naive_rag_astra extends AbstracDevoxxSampleTest {
     public void should_rag_content_retriever() {
 
         ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
-                .embeddingStore(new AstraDbEmbeddingStore(getCollection(storeName)))
+                .embeddingStore(new AstraDbEmbeddingStore(getCollection(COLLECTION_NAME)))
                 .embeddingModel(getEmbeddingModel(MODEL_EMBEDDING_TEXT))
                 .maxResults(2)
                 .minScore(0.5)
@@ -125,6 +126,15 @@ public class _20_naive_rag_astra extends AbstracDevoxxSampleTest {
 
         String response = ai.answer("Who is Johnny?");
         System.out.println(response);
+    }
+
+    @Test
+    public void deleteCollection() {
+        System.out.println(yellow("Delete Collection"));
+        new DataAPIClient(ASTRA_TOKEN)
+                .getDatabase(ASTRA_API_ENDPOINT)
+                .dropCollection(COLLECTION_NAME);
+        System.out.println(cyan("[OK] ") + " Collection Deleted");
     }
 
 }

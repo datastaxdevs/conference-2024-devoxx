@@ -26,8 +26,22 @@ public class _32_vectors extends AbstracDevoxxSampleTest  {
     }
 
     @Test
-    public void should_compute_vector_similarity() {
+    public void should_compare_vectors() {
 
+        String chunk = "HELLO this is a vector";
+        Response<Embedding> chunk1     = getEmbeddingModel(MODEL_EMBEDDING_TEXT).embed(chunk);
+        Response<Embedding> multimodal = getEmbeddingModel(MODEL_EMBEDDING_MULTILINGUAL).embed(chunk);
+
+        // Compute L2 Distance
+        double sum = 0.0;
+        for (int i = 0; i < chunk1.content().vectorAsList().size(); i++) {
+            sum += Math.pow(chunk1.content().vectorAsList().get(i) - multimodal.content().vectorAsList().get(i), 2);
+        }
+        double distance =  Math.sqrt(sum);
+
+        // Same input but different models the distance in vector is pretty high, keep the same embedding model
+        System.out.println(cyan("L2 Distance: ") + distance);
     }
+
 
 }

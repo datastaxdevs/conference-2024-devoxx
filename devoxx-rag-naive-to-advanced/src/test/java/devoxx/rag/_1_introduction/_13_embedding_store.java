@@ -14,16 +14,18 @@ import org.junit.jupiter.api.Test;
 import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
 import static com.datastax.astra.internal.utils.AnsiUtils.yellow;
 
-public class _11_astradb_101 extends AbstracDevoxxSampleTest {
+public class _13_embedding_store extends AbstracDevoxxSampleTest {
+
+    public static final String COLLECTION_NAME = "intro";
 
     @Test
-    public void testAstraDB() {
-        System.out.println(yellow("Connect to vector database"));
+    public void should_connect_store() {
+        System.out.println(yellow("Connect Vector Database"));
 
         // Create Collection
         Collection<Document> vectorStore = new DataAPIClient(ASTRA_TOKEN)
                 .getDatabase(ASTRA_API_ENDPOINT)
-                .createCollection("intro", 5, SimilarityMetric.COSINE);
+                .createCollection(COLLECTION_NAME, 5, SimilarityMetric.COSINE);
         System.out.println(cyan("[OK] ") + " Collection Created");
 
         // Insert a document
@@ -32,11 +34,20 @@ public class _11_astradb_101 extends AbstracDevoxxSampleTest {
                 .append("content", "Hello World")
                 .vector(new float[] {.2f, .2f, .2f, .2f, .2f});
         vectorStore.insertOne(document);
-        System.out.println(cyan("[OK] ") + " Document inserted via AstraDB SDK");
+        System.out.println(cyan("[OK] ") + " Document inserted");
 
-        // With LangChain4j
+        // With LangChain4J
         EmbeddingStore<TextSegment> embeddingStore = new AstraDbEmbeddingStore(vectorStore);
         embeddingStore.add(Embedding.from(new float[] {.2f, .2f, .2f, .2f, .2f}), TextSegment.from("Hello World"));
-        System.out.println(cyan("[OK] ") + " Document inserted with embedding store");
+        System.out.println(cyan("[OK] ") + " Document inserted with store");
+    }
+
+    @Test
+    public void deleteCollection() {
+        System.out.println(yellow("Delete Collection"));
+        new DataAPIClient(ASTRA_TOKEN)
+                .getDatabase(ASTRA_API_ENDPOINT)
+                .dropCollection(COLLECTION_NAME);
+        System.out.println(cyan("[OK] ") + " Collection Deleted");
     }
 }
