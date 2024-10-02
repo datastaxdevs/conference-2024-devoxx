@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>devoxx</groupId>
     <artifactId>devoxx-rag-naive-to-advanced</artifactId>
-    <name>Langchain4j and Palm</name>
+    <name>LangChain4j, Gemini, AstraDB — advanced RAG</name>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -17,6 +17,8 @@
         <lombok.version>1.18.34</lombok.version>
         <langchain4j.version>0.35.0</langchain4j.version>
         <astra-db-java.version>1.5.1</astra-db-java.version>
+
+        <djl.version>0.30.0</djl.version>
 
         <assertj.version>3.26.3</assertj.version>
         <junit-jupiter.version>5.11.1</junit-jupiter.version>
@@ -132,6 +134,14 @@
             <version>${assertj.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Gemini tokenizer -->
+        <dependency>
+            <groupId>ai.djl.sentencepiece</groupId>
+            <artifactId>sentencepiece</artifactId>
+            <version>${djl.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

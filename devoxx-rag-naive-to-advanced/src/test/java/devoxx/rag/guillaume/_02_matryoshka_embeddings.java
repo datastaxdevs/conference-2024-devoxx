@@ -13,7 +13,7 @@ public class _02_matryoshka_embeddings {
             .location(System.getenv("GCP_LOCATION"))
             .modelName("text-embedding-004")
             .publisher("google")
-//            .outputDimensionality(768)
+            .outputDimensionality(768)
             .build();
 
         var embeddingModel256 = VertexAiEmbeddingModel.builder()
@@ -22,7 +22,7 @@ public class _02_matryoshka_embeddings {
             .location(System.getenv("GCP_LOCATION"))
             .modelName("text-embedding-004")
             .publisher("google")
-//            .outputDimensionality(256)
+            .outputDimensionality(256)
             .build();
 
         Response<Embedding> embeddingOne768 = embeddingModel768.embed("young dog");

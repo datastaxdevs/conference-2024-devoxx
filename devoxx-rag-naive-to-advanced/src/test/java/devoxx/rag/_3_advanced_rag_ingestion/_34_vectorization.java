@@ -1,9 +1,18 @@
 package devoxx.rag._3_advanced_rag_ingestion;
 
+import ai.djl.sentencepiece.SpTokenizer;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class _34_vectorization {
 
@@ -76,11 +85,28 @@ public class _34_vectorization {
     }
 
     @Test
-    public void gemeni_tokenizer() {
-        // Tokenize the chunk
-        String[] words = chunk.split(" ");
-        for (String word : words) {
-            System.out.println(word);
+    public void gemeni_tokenizer() throws IOException {
+        Path modelFile = Paths.get("src/test/resources/gemini/gemini-tokenizer.model");
+        if (Files.notExists(modelFile)) {
+            throw new FileNotFoundException("Model file not found");
+        }
+
+        String textToTokenize = """
+            When integrating an LLM into your application to extend it and make it smarter, \
+            it's important to be aware of the pitfalls and best practices you need to follow \
+            to avoid some common problems and integrate them successfully. This article will \
+            guide you through some key best practices that I've come across.
+            """;
+
+        byte[] modelFileBytes = Files.readAllBytes(modelFile);
+        try (SpTokenizer tokenizer = new SpTokenizer(modelFileBytes)) {
+            List<String> tokens = tokenizer.tokenize(textToTokenize);
+            for (String token: tokens) {
+                System.out.format("[%s]%n", token);
+            }
+
+            System.out.println("Token count: " + tokens.size());
+            assertThat(tokens.size()).isEqualTo(61);
         }
     }
 
