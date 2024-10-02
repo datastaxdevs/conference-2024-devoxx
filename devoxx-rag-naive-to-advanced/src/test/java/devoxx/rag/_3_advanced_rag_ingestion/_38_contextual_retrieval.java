@@ -4,20 +4,32 @@ import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.Metadata;
 import dev.langchain4j.data.document.splitter.DocumentSplitters;
 import dev.langchain4j.data.message.AiMessage;
+import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.data.segment.TextSegment;
+import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.input.PromptTemplate;
 import dev.langchain4j.model.output.Response;
+import dev.langchain4j.model.scoring.ScoringModel;
 import dev.langchain4j.model.vertexai.VertexAiEmbeddingModel;
 import dev.langchain4j.model.vertexai.VertexAiGeminiChatModel;
 import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
 import dev.langchain4j.store.embedding.EmbeddingSearchResult;
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
+import devoxx.rag.AbstracDevoxxSampleTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
-public class _38_contextual_retrieval {
-    public static void main(String[] args) {
+import static com.datastax.astra.internal.utils.AnsiUtils.*;
+
+public class _38_contextual_retrieval extends AbstracDevoxxSampleTest {
+
+    public static final String ORIGINAL = "original";
+
+    @Test
+    public void contextualRetrieval() {
         String text = """
             Dimensionality Reduction: Simplifying Complex Data
             
@@ -51,18 +63,8 @@ public class _38_contextual_retrieval {
             By understanding dimensionality reduction and applying the appropriate techniques, you can simplify complex datasets, improve model performance, and gain valuable insights from your data.
             """;
 
-        var gemini = VertexAiGeminiChatModel.builder()
-            .project(System.getenv("GCP_PROJECT_ID"))
-            .location(System.getenv("GCP_LOCATION"))
-            .modelName("gemini-1.5-flash-002")
-            .build();
-
-        var embeddingModel = VertexAiEmbeddingModel.builder()
-            .project(System.getenv("GCP_PROJECT_ID"))
-            .location(System.getenv("GCP_LOCATION"))
-            .modelName("text-embedding-004")
-            .publisher("google")
-            .build();
+        var gemini = getChatLanguageModel("gemini-1.5-pro-002");
+        var embeddingModel = getEmbeddingModel("text-embedding-004");
 
         InMemoryEmbeddingStore<TextSegment> embeddingStore =
             new InMemoryEmbeddingStore<>();
@@ -75,7 +77,8 @@ public class _38_contextual_retrieval {
             <chunk>
             {{chunk}}
             </chunk>
-            Please give a short succinct context to situate this chunk within the overall document for the purposes of improving search retrieval of the chunk. \
+            Please give a short succinct context to situate this chunk within the overall document \
+            for the purposes of improving search retrieval of the chunk. \
             Answer only with the succinct context and nothing else.
             """);
 
@@ -89,30 +92,65 @@ public class _38_contextual_retrieval {
                         "wholeDocument", text))
                     .toUserMessage());
 
-                System.out.println("\n=======================================================");
-                System.out.println("ORIGINAL:\n\n" + segment.text());
-                System.out.println("\n----------------");
-                System.out.println("TRANSFORMED:\n\n" + generatedChunk.content().text());
+                System.out.println("\n" + "-".repeat(100));
+                System.out.println(yellow("ORIGINAL:\n") + segment.text());
+                System.out.println(yellow("\nCONTEXTUALIZED CHUNK:\n") + generatedChunk.content().text());
 
-                return TextSegment.from(generatedChunk.content().text(), new Metadata().put("original", segment.text()));
+                return TextSegment.from(generatedChunk.content().text(), new Metadata().put(ORIGINAL, segment.text()));
             })
             .build();
         ingestor.ingest(Document.from(text));
 
-        String question = "What are the main dimensionality reduction techniques?";
+        String queryString = "What are the main dimensionality reduction techniques?";
+
+        System.out.println("=".repeat(100) + cyan("\nQUESTION: ") + queryString);
+
+        ScoringModel scoringModel = getScoringModel();
 
         EmbeddingSearchResult<TextSegment> results = embeddingStore.search(EmbeddingSearchRequest.builder()
             .minScore(0.7)
             .maxResults(5)
-            .queryEmbedding(embeddingModel.embed(question).content())
+            .queryEmbedding(embeddingModel.embed(queryString).content())
             .build());
 
         results.matches().forEach(match -> {
-            System.out.println("\n--- " + match.score() +  " -----\n");
-            System.out.println("ORIGINAL:\n\n" + match.embedded().metadata().getString("original"));
-            System.out.println("\nTRANSFORMED:\n\n" + match.embedded().text());
+            double score = scoringModel.score(match.embedded().text(), queryString).content();
+
+            System.out.println(magenta("\n-> Similarity: " + match.score() + " --- (Ranking score: " + score + ") ---\n"));
+            System.out.println(yellow("ORIGINAL:\n") + match.embedded().metadata().getString(ORIGINAL));
+            System.out.println(yellow("\nCONTEXTUALIZED CHUNK:\n") + match.embedded().text());
 
         });
+
+        // =================================
+        // Ask Gemini to generate a response
+
+        ChatLanguageModel chatModel = getChatLanguageModel("gemini-1.5-pro-002");
+
+        String concatenatedExtracts = results.matches().stream()
+            .map(match -> match.embedded().metadata().getString(ORIGINAL))
+            .filter(original -> scoringModel.score(original, queryString).content() > 0.7)
+            .distinct()
+            .collect(Collectors.joining("\n---\n", "\n---\n", "\n---\n"));
+
+        UserMessage userMessage = PromptTemplate.from("""
+            You must answer the following queryString:
+            
+            {{queryString}}
+            
+            Base your answer on the following documentation extracts:
+            
+            {{extracts}}
+            """).apply(Map.of(
+            "queryString", queryString,
+            "extracts", concatenatedExtracts
+        )).toUserMessage();
+
+        System.out.println(magenta("\nMODEL REQUEST:\n") + userMessage.text().replaceAll("\\n", "\n") + "\n");
+
+        Response<AiMessage> response = chatModel.generate(userMessage);
+
+        System.out.println(magenta("\nRESPONSE:\n") + response.content().text());
 
     }
 }
