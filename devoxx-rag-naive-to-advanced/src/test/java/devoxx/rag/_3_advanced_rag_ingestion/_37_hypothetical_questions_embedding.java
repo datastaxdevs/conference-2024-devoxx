@@ -155,7 +155,7 @@ public class _37_hypothetical_questions_embedding extends AbstracDevoxxSampleTes
         searchResults.matches().forEach(match -> {
             double score = scoringModel.score(match.embedded().metadata().getString(PARAGRAPH_KEY), queryString).content();
 
-            System.out.println(yellow("\n-> Similarity: " + match.score() + " (Ranking score: " + score + ")\n") +
+            System.out.println(yellow("\n-> Similarity: " + match.score() + " --- (Ranking score: " + score + ") ---\n") +
                 "\n" + cyan("Embedded question: ") + match.embedded().text() +
                 "\n" + cyan("  About paragraph: ") + match.embedded().metadata().getString(PARAGRAPH_KEY));
         });
@@ -165,7 +165,12 @@ public class _37_hypothetical_questions_embedding extends AbstracDevoxxSampleTes
 
         ChatLanguageModel chatModel = getChatLanguageModel("gemini-1.5-pro-002");
 
-        Response<AiMessage> response = chatModel.generate(PromptTemplate.from("""
+        String concatenatedExtracts = searchResults.matches().stream()
+            .map(match -> match.embedded().metadata().getString(PARAGRAPH_KEY))
+            .distinct()
+            .collect(Collectors.joining("\n---\n", "\n---\n", "\n---\n"));
+
+        UserMessage userMessage = PromptTemplate.from("""
             You must answer the following question:
             
             {{question}}
@@ -175,11 +180,12 @@ public class _37_hypothetical_questions_embedding extends AbstracDevoxxSampleTes
             {{extracts}}
             """).apply(Map.of(
             "question", queryString,
-            "extracts", searchResults.matches().stream()
-                .map(match -> match.embedded().metadata().getString(PARAGRAPH_KEY))
-                .distinct()
-                .collect(Collectors.joining("\n---\n", "\n---\n", "\n---\n"))
-        )).toUserMessage());
+            "extracts", concatenatedExtracts
+        )).toUserMessage();
+
+        System.out.println(magenta("\nMODEL REQUEST:\n") + userMessage.text().replaceAll("\\n", "\n") + "\n");
+
+        Response<AiMessage> response = chatModel.generate(userMessage);
 
         System.out.println(magenta("\nRESPONSE:\n") + response.content().text());
     }

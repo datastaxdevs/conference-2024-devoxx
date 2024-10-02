@@ -1,4 +1,4 @@
-package devoxx.rag.experiments;
+package devoxx.rag._3_advanced_rag_ingestion;
 
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.Metadata;
@@ -16,7 +16,7 @@ import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
 
 import java.util.Map;
 
-public class _66_contextual_retrieval {
+public class _38_contextual_retrieval {
     public static void main(String[] args) {
         String text = """
             Dimensionality Reduction: Simplifying Complex Data
