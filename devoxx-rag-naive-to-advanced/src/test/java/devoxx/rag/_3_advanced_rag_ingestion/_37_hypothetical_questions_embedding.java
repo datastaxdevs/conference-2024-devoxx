@@ -18,6 +18,7 @@ import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.input.PromptTemplate;
 import dev.langchain4j.model.output.Response;
+import dev.langchain4j.model.scoring.ScoringModel;
 import dev.langchain4j.model.vertexai.VertexAiGeminiChatModel;
 import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
 import dev.langchain4j.store.embedding.EmbeddingSearchResult;
@@ -149,8 +150,12 @@ public class _37_hypothetical_questions_embedding extends AbstracDevoxxSampleTes
             .queryEmbedding(embeddingModel.embed(queryString).content())
             .build());
 
+        ScoringModel scoringModel = getScoringModel();
+
         searchResults.matches().forEach(match -> {
-            System.out.println(yellow("\n-> Score: " + match.score() + "\n") +
+            double score = scoringModel.score(match.embedded().metadata().getString(PARAGRAPH_KEY), queryString).content();
+
+            System.out.println(yellow("\n-> Similarity: " + match.score() + " (Ranking score: " + score + ")\n") +
                 "\n" + cyan("Embedded question: ") + match.embedded().text() +
                 "\n" + cyan("  About paragraph: ") + match.embedded().metadata().getString(PARAGRAPH_KEY));
         });

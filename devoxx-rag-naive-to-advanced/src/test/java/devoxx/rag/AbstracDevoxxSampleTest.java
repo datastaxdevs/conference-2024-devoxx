@@ -14,9 +14,11 @@ import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.model.output.Response;
+import dev.langchain4j.model.scoring.ScoringModel;
 import dev.langchain4j.model.vertexai.VertexAiEmbeddingModel;
 import dev.langchain4j.model.vertexai.VertexAiGeminiChatModel;
 import dev.langchain4j.model.vertexai.VertexAiGeminiStreamingChatModel;
+import dev.langchain4j.model.vertexai.VertexAiScoringModel;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.store.embedding.EmbeddingStore;
@@ -57,7 +59,7 @@ public abstract class AbstracDevoxxSampleTest {
     protected final String MODEL_EMBEDDING_TEXT         = "text-embedding-004";
     protected final int    MODEL_EMBEDDING_DIMENSION    = 768;
 
-    /** Create a the chat model. */
+    /** Create a chat model. */
     protected ChatLanguageModel getChatLanguageModel(final String modelName) {
         return VertexAiGeminiChatModel.builder()
                 .project(System.getenv("GCP_PROJECT_ID"))
@@ -67,7 +69,7 @@ public abstract class AbstracDevoxxSampleTest {
                 .build();
     }
 
-    /** Create a Streaming Chat Model. */
+    /** Create a streaming chat model. */
     protected StreamingChatLanguageModel getChatLanguageModelStreaming(final String modelName) {
         return VertexAiGeminiStreamingChatModel.builder()
                 .project(System.getenv("GCP_PROJECT_ID"))
@@ -76,7 +78,7 @@ public abstract class AbstracDevoxxSampleTest {
                 .build();
     }
 
-    /** Create an Embedding model. */
+    /** Create an embedding model. */
     protected EmbeddingModel getEmbeddingModel(final String modelName) {
         return VertexAiEmbeddingModel.builder()
                 .project(System.getenv("GCP_PROJECT_ID"))
@@ -159,6 +161,15 @@ public abstract class AbstracDevoxxSampleTest {
                 .embeddingModel(getEmbeddingModel(MODEL_EMBEDDING_TEXT))
                 .maxResults(2)
                 .minScore(0.6);
+    }
+
+    protected ScoringModel getScoringModel() {
+        return VertexAiScoringModel.builder()
+            .projectId(System.getenv("GCP_PROJECT_ID"))
+            .projectNumber(System.getenv("GCP_PROJECT_NUM"))
+            .location(System.getenv("GCP_LOCATION"))
+            .model("semantic-ranker-512")
+            .build();
     }
 
     // ------------------------------------------------------------
