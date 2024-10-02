@@ -11,6 +11,7 @@ import dev.langchain4j.model.input.PromptTemplate;
 import dev.langchain4j.model.output.Response;
 import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
 import dev.langchain4j.store.embedding.EmbeddingSearchResult;
+import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
 import devoxx.rag.AbstracDevoxxSampleTest;
 import org.junit.jupiter.api.Test;
@@ -83,12 +84,12 @@ public class _36_chunks_with_wider_context extends AbstracDevoxxSampleTest {
             
             {{question}}
             
-            Base your answer on the following information:
+            Base your answer on the following documentation extracts:
 
-            {{excerpts}}
+            {{extracts}}
             """).apply(Map.of(
             "question", queryString,
-            "excerpts", searchResults.matches().stream()
+            "extracts", searchResults.matches().stream()
                 .map(match -> match.embedded().metadata().getString(PARENT_CONTEXT_KEY))
                 .collect(Collectors.joining("\n---\n", "\n---\n", "\n---\n"))
         )).toUserMessage());
