@@ -1,10 +1,8 @@
 package devoxx.rag._3_advanced_rag_ingestion;
 
-import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.splitter.DocumentBySentenceSplitter;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
-import dev.langchain4j.model.output.Response;
 import dev.langchain4j.model.scoring.ScoringModel;
 import dev.langchain4j.store.embedding.CosineSimilarity;
 import devoxx.rag.AbstracDevoxxSampleTest;
@@ -25,7 +23,7 @@ public class _39_semantic_chunking extends AbstracDevoxxSampleTest {
     public void semanticChunking() {
         String text = loadDocumentText("text/berlin.txt").text();
 
-        var embeddingModel = getEmbeddingModel("text-embedding-004");
+        var embeddingModel = getEmbeddingModel(MODEL_EMBEDDING_TEXT);
 
         // split by sentences
         DocumentBySentenceSplitter splitter = new DocumentBySentenceSplitter(200, 20);

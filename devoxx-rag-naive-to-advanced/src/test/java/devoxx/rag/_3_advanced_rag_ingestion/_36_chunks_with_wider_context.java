@@ -44,7 +44,7 @@ public class _36_chunks_with_wider_context extends AbstracDevoxxSampleTest {
 
         List<ParentChild> parentChildren = slidingWindow(textSegments, 1, 2);
 
-        var embeddingModel = getEmbeddingModel("text-embedding-004");
+        var embeddingModel = getEmbeddingModel(MODEL_EMBEDDING_TEXT);
 
         InMemoryEmbeddingStore<TextSegment> embeddingStore =
             new InMemoryEmbeddingStore<>();

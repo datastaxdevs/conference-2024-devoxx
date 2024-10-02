@@ -1,4 +1,4 @@
-package devoxx.rag.experiments;
+package devoxx.rag._4_advanced_rag_query;
 
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.splitter.DocumentByParagraphSplitter;
@@ -7,17 +7,22 @@ import dev.langchain4j.data.message.SystemMessage;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.output.Response;
-import dev.langchain4j.model.vertexai.VertexAiEmbeddingModel;
-import dev.langchain4j.model.vertexai.VertexAiGeminiChatModel;
 import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
 import dev.langchain4j.store.embedding.EmbeddingSearchResult;
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
+import devoxx.rag.AbstracDevoxxSampleTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-public class _64_hypothetical_document_embeddings {
-    public static void main(String[] args) {
+import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
+import static com.datastax.astra.internal.utils.AnsiUtils.yellow;
+
+public class _46_hypothetical_document_embeddings extends AbstracDevoxxSampleTest {
+
+    @Test
+    public void hydetheticalDocumentEmbeddings() {
         String text = """
             Dimensionality Reduction: Simplifying Complex Data
             
@@ -51,18 +56,8 @@ public class _64_hypothetical_document_embeddings {
             By understanding dimensionality reduction and applying the appropriate techniques, you can simplify complex datasets, improve model performance, and gain valuable insights from your data.
             """;
 
-        var gemini = VertexAiGeminiChatModel.builder()
-            .project(System.getenv("GCP_PROJECT_ID"))
-            .location(System.getenv("GCP_LOCATION"))
-            .modelName("gemini-1.5-flash-002")
-            .build();
-
-        var embeddingModel = VertexAiEmbeddingModel.builder()
-            .project(System.getenv("GCP_PROJECT_ID"))
-            .location(System.getenv("GCP_LOCATION"))
-            .modelName("text-embedding-004")
-            .publisher("google")
-            .build();
+        var chatModel = getChatLanguageModel(MODEL_GEMINI_PRO);
+        var embeddingModel = getEmbeddingModel(MODEL_EMBEDDING_TEXT);
 
         DocumentByParagraphSplitter splitter = new DocumentByParagraphSplitter(1000, 0);
 
@@ -76,15 +71,18 @@ public class _64_hypothetical_document_embeddings {
             .build();
         ingestor.ingest(Document.from(text));
 
-        String question = "What are the main dimensionality reduction techniques?";
+        String queryString = "What are the main dimensionality reduction techniques?";
 
-        Response<AiMessage> hypotheticalAnswer = gemini.generate(
+        System.out.println(cyan("\n———————— QUESTION —————————————————————————————————————\n"));
+        System.out.println(queryString);
+
+        Response<AiMessage> hypotheticalAnswer = chatModel.generate(
             List.of(
                 SystemMessage.from("Provide a short and concise answer to the user's questions"),
-                UserMessage.from(question)
+                UserMessage.from(queryString)
             )
         );
-        System.out.println("\n======== HYPOTHETICAL ANSWER ==================\n");
+        System.out.println(cyan("\n———————— HYPOTHETICAL ANSWER ——————————————————————————\n"));
         String hypotheticalQuestion = hypotheticalAnswer.content().text();
         System.out.println(hypotheticalQuestion);
 
@@ -93,7 +91,7 @@ public class _64_hypothetical_document_embeddings {
         EmbeddingSearchResult<TextSegment> searchDirect = embeddingStore.search(EmbeddingSearchRequest.builder()
             .minScore(0.7)
             .maxResults(5)
-            .queryEmbedding(embeddingModel.embed(question).content())
+            .queryEmbedding(embeddingModel.embed(queryString).content())
             .build());
 
         EmbeddingSearchResult<TextSegment> searchHypothetical = embeddingStore.search(EmbeddingSearchRequest.builder()
@@ -102,15 +100,14 @@ public class _64_hypothetical_document_embeddings {
             .queryEmbedding(embeddingModel.embed(hypotheticalQuestion).content())
             .build());
 
-        System.out.println("\n======== RESULT FROM QUERY ======================");
+        System.out.println(cyan("\n———————— RESULT FROM QUERY ————————————————————————————\n"));
         searchDirect.matches().forEach(match -> {
-            System.out.println("\n--- " + match.score() +  " -----\n" + match.embedded().text());
+            System.out.println(yellow("\n-> Similarity: " + match.score() +  " ————————\n") + match.embedded().text());
         });
 
-        System.out.println("\n======== RESULT FROM HYPOTHETICAL ANSWER ========");
+        System.out.println(cyan("\n———————— RESULT FROM HYPOTHETICAL ANSWER ——————————————\n"));
         searchHypothetical.matches().forEach(match -> {
-            System.out.println("\n--- " + match.score() +  " -----\n" + match.embedded().text());
+            System.out.println(yellow("\n-> Similarity: " + match.score() +  " ————————\n") + match.embedded().text());
         });
-
     }
 }

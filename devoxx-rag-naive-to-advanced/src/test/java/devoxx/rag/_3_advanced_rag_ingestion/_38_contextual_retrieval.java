@@ -61,8 +61,8 @@ public class _38_contextual_retrieval extends AbstracDevoxxSampleTest {
             By understanding dimensionality reduction and applying the appropriate techniques, you can simplify complex datasets, improve model performance, and gain valuable insights from your data.
             """;
 
-        var gemini = getChatLanguageModel("gemini-1.5-pro-002");
-        var embeddingModel = getEmbeddingModel("text-embedding-004");
+        var gemini = getChatLanguageModel(MODEL_GEMINI_PRO);
+        var embeddingModel = getEmbeddingModel(MODEL_EMBEDDING_TEXT);
 
         InMemoryEmbeddingStore<TextSegment> embeddingStore =
             new InMemoryEmbeddingStore<>();
@@ -123,7 +123,7 @@ public class _38_contextual_retrieval extends AbstracDevoxxSampleTest {
         // =================================
         // Ask Gemini to generate a response
 
-        ChatLanguageModel chatModel = getChatLanguageModel("gemini-1.5-pro-002");
+        ChatLanguageModel chatModel = getChatLanguageModel(MODEL_GEMINI_PRO);
 
         String concatenatedExtracts = results.matches().stream()
             .map(match -> match.embedded().metadata().getString(ORIGINAL))

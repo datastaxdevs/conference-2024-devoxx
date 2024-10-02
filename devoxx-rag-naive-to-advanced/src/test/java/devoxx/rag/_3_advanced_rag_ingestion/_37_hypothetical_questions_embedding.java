@@ -74,7 +74,7 @@ public class _37_hypothetical_questions_embedding extends AbstracDevoxxSampleTes
             VertexAiGeminiChatModel gemini = VertexAiGeminiChatModel.builder()
                 .project(System.getenv("GCP_PROJECT_ID"))
                 .location(System.getenv("GCP_LOCATION"))
-                .modelName("gemini-1.5-flash-002")
+                .modelName(MODEL_GEMINI_FLASH)
                 .maxRetries(5)
                 .responseSchema(Schema.newBuilder()
                     .setType(Type.ARRAY)
@@ -141,7 +141,7 @@ public class _37_hypothetical_questions_embedding extends AbstracDevoxxSampleTes
         System.out.println(magenta("-".repeat(100)));
         System.out.println(magenta("\nUSER QUESTION: ") + queryString);
 
-        var embeddingModel = getEmbeddingModel("text-embedding-004");
+        var embeddingModel = getEmbeddingModel(MODEL_EMBEDDING_TEXT);
         var embeddingStore = getEmbeddingStore();
 
         EmbeddingSearchResult<TextSegment> searchResults = embeddingStore.search(EmbeddingSearchRequest.builder()
@@ -163,7 +163,7 @@ public class _37_hypothetical_questions_embedding extends AbstracDevoxxSampleTes
         // =================================
         // Ask Gemini to generate a response
 
-        ChatLanguageModel chatModel = getChatLanguageModel("gemini-1.5-pro-002");
+        ChatLanguageModel chatModel = getChatLanguageModel(MODEL_GEMINI_PRO);
 
         String concatenatedExtracts = searchResults.matches().stream()
             .map(match -> match.embedded().metadata().getString(PARAGRAPH_KEY))
