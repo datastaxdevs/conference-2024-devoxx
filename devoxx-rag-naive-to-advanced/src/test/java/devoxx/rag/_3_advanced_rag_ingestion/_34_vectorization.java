@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-public class _25_vectorization {
+public class _34_vectorization {
 
     String chunk = "Devoxx is the greatest conference to developer to know about the latest innovations in the tech world";
 

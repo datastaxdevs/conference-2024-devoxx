@@ -1,4 +1,4 @@
-package devoxx.rag._4_advanced_rag_query._2_VectorSearch;
+package devoxx.rag._4_advanced_rag_query;
 
 import com.datastax.astra.langchain4j.store.embedding.AstraDbEmbeddingStore;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
@@ -15,13 +15,15 @@ import org.junit.jupiter.api.Test;
 import static java.util.Arrays.asList;
 
 
-public class _63_Filter_MetaDataFiltering extends AbstracDevoxxSampleTest {
+public class _40_metadata_filtering extends AbstracDevoxxSampleTest {
+
+    String storeName = "naive_rag";
 
     @Test
     public void shouldRetrieveDocument() {
 
         ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
-                .embeddingStore(new AstraDbEmbeddingStore(getCollection("demo")))
+                .embeddingStore(new AstraDbEmbeddingStore(getCollection(storeName)))
                 .embeddingModel(getEmbeddingModel(MODEL_EMBEDDING_TEXT))
                 .maxResults(2)
                 .minScore(0.5)
@@ -30,7 +32,6 @@ public class _63_Filter_MetaDataFiltering extends AbstracDevoxxSampleTest {
         // Enhance the content retriever to add meta data in the prompt
         RetrievalAugmentor retrievalAugmentor = DefaultRetrievalAugmentor.builder()
                 .contentRetriever(contentRetriever)
-
                 // Query Transformation
                 .contentInjector(DefaultContentInjector
                         .builder()

@@ -1,4 +1,4 @@
-package devoxx.rag._4_advanced_rag_query._3_ProcessProcessing;
+package devoxx.rag._4_advanced_rag_query;
 
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.cohere.CohereScoringModel;
@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
  * ReRanking
  * https://dashboard.cohere.com/welcome/register
  */
-public class _66_Sorting_Reranking extends AbstracDevoxxSampleTest {
+public class _43_aggregation_reranking extends AbstracDevoxxSampleTest {
 
     @Test
     public void shouldRerankResult() {

@@ -1,4 +1,4 @@
-package devoxx.rag._4_advanced_rag_query;
+package devoxx.rag._3_advanced_rag_ingestion;
 
 import com.datastax.astra.client.model.Document;
 import com.datastax.astra.langchain4j.store.embedding.AstraDbEmbeddingStore;
@@ -18,7 +18,7 @@ import java.util.List;
 import static dev.langchain4j.store.embedding.filter.MetadataFilterBuilder.metadataKey;
 
 @Slf4j
-class _03_AstraVectorTest extends AbstracDevoxxSampleTest {
+class _35_ingest_json extends AbstracDevoxxSampleTest {
 
     @Test
     void shouldIngestDocuments() throws IOException {

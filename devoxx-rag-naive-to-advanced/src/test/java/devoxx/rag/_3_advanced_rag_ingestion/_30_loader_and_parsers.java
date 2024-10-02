@@ -19,7 +19,7 @@ import java.util.Objects;
 import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
 import static com.datastax.astra.internal.utils.AnsiUtils.yellow;
 
-public class _20_loader_and_parsers extends AbstracDevoxxSampleTest {
+public class _30_loader_and_parsers extends AbstracDevoxxSampleTest {
 
     /**
      * Get the proper parser based on the file extension.

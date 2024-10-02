@@ -1,4 +1,4 @@
-package devoxx.rag._4_advanced_rag_query._3_ProcessProcessing;
+package devoxx.rag._4_advanced_rag_query;
 
 import devoxx.rag.AbstracDevoxxSampleTest;
 import org.junit.jupiter.api.Test;
@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 /**
  *
  */
-public class _67_Sorting_Projection extends AbstracDevoxxSampleTest {
+public class _44_projection_and_sort extends AbstracDevoxxSampleTest {
 
     @Test
     public void shouldRerankResult() {

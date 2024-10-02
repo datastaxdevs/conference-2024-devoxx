@@ -5,14 +5,13 @@ import dev.langchain4j.model.embedding.onnx.allminilml6v2q.AllMiniLmL6V2Quantize
 import dev.langchain4j.model.output.Response;
 import dev.langchain4j.store.embedding.CosineSimilarity;
 import devoxx.rag.AbstracDevoxxSampleTest;
-import org.apache.commons.math3.ml.distance.EuclideanDistance;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
 
-public class _23_vectors_similarity extends AbstracDevoxxSampleTest  {
+public class _33_vectors_similarity extends AbstracDevoxxSampleTest  {
 
     /**
      * Euclidean

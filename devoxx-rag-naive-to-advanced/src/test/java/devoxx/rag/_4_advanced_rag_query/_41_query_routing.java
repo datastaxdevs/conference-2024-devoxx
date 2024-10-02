@@ -1,4 +1,4 @@
-package devoxx.rag._4_advanced_rag_query._1_preprocessing;
+package devoxx.rag._4_advanced_rag_query;
 
 import dev.langchain4j.rag.DefaultRetrievalAugmentor;
 import dev.langchain4j.rag.RetrievalAugmentor;
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Collection;
 import java.util.List;
 
-public class _64_QueryRouting extends AbstracDevoxxSampleTest {
+public class _41_query_routing extends AbstracDevoxxSampleTest {
 
 
     @Test

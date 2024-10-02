@@ -1,4 +1,4 @@
-package devoxx.rag._4_advanced_rag_query._1_preprocessing;
+package devoxx.rag._4_advanced_rag_query;
 
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.rag.DefaultRetrievalAugmentor;
@@ -9,7 +9,7 @@ import devoxx.rag.AbstracDevoxxSampleTest;
 import devoxx.rag.Assistant;
 import org.junit.jupiter.api.Test;
 
-public class _65_QueryCompression extends AbstracDevoxxSampleTest {
+public class _42_query_compression extends AbstracDevoxxSampleTest {
 
 
     @Test

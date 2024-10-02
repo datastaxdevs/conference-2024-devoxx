@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
 
-public class _22_vectors extends AbstracDevoxxSampleTest  {
+public class _32_vectors extends AbstracDevoxxSampleTest  {
 
     @Test
     public void should_vector_normalized() {
