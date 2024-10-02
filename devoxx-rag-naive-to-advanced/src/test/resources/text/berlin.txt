@@ -36,7 +36,6 @@ The Thirty Years' War between 1618 and 1648 devastated Berlin. One third of its 
 
 By 1700, approximately 30 percent of Berlin's residents were French, because of the Huguenot immigration. Many other immigrants came from Bohemia, Poland, and Salzburg.
 
-
 Berlin became the capital of the German Empire in 1871 and expanded rapidly in the following years.
 Since 1618, the Margraviate of Brandenburg had been in personal union with the Duchy of Prussia. In 1701, the dual state formed the Kingdom of Prussia, as Frederick III, Elector of Brandenburg, crowned himself as king Frederick I in Prussia. Berlin became the capital of the new Kingdom, replacing Königsberg. This was a successful attempt to centralise the capital in the very far-flung state, and it was the first time the city began to grow. In 1709, Berlin merged with the four cities of Cölln, Friedrichswerder, Friedrichstadt and Dorotheenstadt under the name Berlin, "Haupt- und Residenzstadt Berlin".
 
@@ -58,7 +57,6 @@ NSDAP rule diminished Berlin's Jewish community from 160,000 (one-third of all J
 
 Berlin hosted the 1936 Summer Olympics for which the Olympic stadium was built.
 
-
 View from Pariser Platz in June 1945, after the battle of Berlin
 
 Berlin in ruins after World War II (Potsdamer Platz, 1945)
@@ -66,12 +64,10 @@ During World War II, Berlin was the location of multiple Nazi prisons, forced la
 
 During World War II, large parts of Berlin were destroyed during 1943–45 Allied air raids and the 1945 Battle of Berlin. The Allies dropped 67,607 tons of bombs on the city, destroying 6,427 acres of the built-up area. Around 125,000 civilians were killed. After the end of World War II in Europe in May 1945, Berlin received large numbers of refugees from the Eastern provinces. The victorious powers divided the city into four sectors, analogous to Allied-occupied Germany the sectors of the Allies of World War II (the United States, the United Kingdom, and France) formed West Berlin, while the Soviet Union formed East Berlin.
 
-
 US and Soviet tanks face each other. Taken in 1961 at Checkpoint Charlie, during the construction of the Berlin Wall
 
 The Berlin Wall (painted on the western side) was a barrier that divided the city from 1961 to 1989.
 All four Allies of World War II shared administrative responsibilities for Berlin. However, in 1948, when the Western Allies extended the currency reform in the Western zones of Germany to the three western sectors of Berlin, the Soviet Union imposed the Berlin Blockade on the access routes to and from West Berlin, which lay entirely inside Soviet-controlled territory. The Berlin airlift, conducted by the three western Allies, overcame this blockade by supplying food and other supplies to the city from June 1948 to May 1949. In 1949, the Federal Republic of Germany was founded in West Germany and eventually included all of the American, British and French zones, excluding those three countries' zones in Berlin, while the Marxist–Leninist German Democratic Republic was proclaimed in East Germany. West Berlin officially remained an occupied city, but it politically was aligned with the Federal Republic of Germany despite West Berlin's geographic isolation. Airline service to West Berlin was granted only to American, British and French airlines.
-
 
 The Berlin Wall bordered with East and West Berlin in 1983
 
@@ -95,7 +91,6 @@ In a 2016 terrorist attack linked to ISIL, a truck was deliberately driven into 
 In 2018, more than 200,000 protestors took to the streets in Berlin with demonstrations of solidarity against racism, in response to the emergence of far-right politics in Germany.
 
 Berlin Brandenburg Airport (BER) opened in 2020, nine years later than planned, with Terminal 1 coming into service at the end of October, and flights to and from Tegel Airport ending in November. Due to the fall in passenger numbers resulting from the COVID-19 pandemic, plans were announced to close BER's Terminal 5, the former Schönefeld Airport, beginning in March 2021. The connecting link of U-Bahn line U5 from Alexanderplatz to Hauptbahnhof, along with the new stations Rotes Rathaus and Unter den Linden, opened on 4 December 2020, the Museumsinsel U-Bahn station opened in 2021, which completed all new works on the U5.
-
 
 The 2006 FIFA World Cup final was held in Berlin
 
@@ -251,7 +246,9 @@ Mean monthly sunshine hours	52.6	77.9	126.7	196.4	231.1	232.9	233.7	222.2	168.9	
 Source 1: Data derived from Deutscher Wetterdienst
 Source 2: NCEI(days with precipitation and snow, humidity)
 Climate data for Berlin (Dahlem), 58 m or 190 ft, 1961–1990 normals, extremes 1908–present
+
 Cityscape and architecture
+
 Cityscape
 
 Aerial photo over central Berlin showing City West, Potsdamer Platz, Unter den Linden and Alexanderplatz
@@ -289,7 +286,6 @@ The Brandenburg Gate is an iconic landmark of Berlin and Germany; it stands as a
 The East Side Gallery is an open-air exhibition of art painted directly on the last existing portions of the Berlin Wall. It is the largest remaining evidence of the city's historical division.
 
 The Gendarmenmarkt is a neoclassical square in Berlin, the name of which derives from the headquarters of the famous Gens d'armes regiment located here in the 18th century. Two similarly designed cathedrals border it, the Französischer Dom with its observation platform and the Deutscher Dom. The Konzerthaus (Concert Hall), home of the Berlin Symphony Orchestra, stands between the two cathedrals.
-
 
 Charlottenburg Palace
 
@@ -350,6 +346,7 @@ Year	Pop.	±%
 2000	3,388,434	−1.3%
 2011	3,292,365	−2.8%
 2022	3,596,999	+9.3%
+
 Population size may be affected by changes in administrative divisions.
 In 2014, the city-state Berlin had 37,368 live births (+6.6%), a record number since 1991. The number of deaths was 32,314. Almost 2.0 million households were counted in the city. 54 percent of them were single-person households. More than 337,000 families with children under the age of 18 lived in Berlin. In 2014, the German capital registered a migration surplus of approximately 40,000 people.
 
@@ -373,6 +370,7 @@ Country	Population (31.12.2023)
  USA	21,743
  Serbia	21,305
  France	19,484
+
 National and international migration into the city has a long history. In 1685, after the revocation of the Edict of Nantes in France, the city responded with the Edict of Potsdam, which guaranteed religious freedom and tax-free status to French Huguenot refugees for ten years. The Greater Berlin Act in 1920 incorporated many suburbs and surrounding cities of Berlin. It formed most of the territory that comprises modern Berlin and increased the population from 1.9 million to 4 million.
 
 Active immigration and asylum politics in West Berlin triggered waves of immigration in the 1960s and 1970s. Berlin is home to at least 180,000 Turkish and Turkish German residents, making it the largest Turkish community outside of Turkey. In the 1990s the Aussiedlergesetze enabled immigration to Germany of some residents from the former Soviet Union. Today ethnic Germans from countries of the former Soviet Union make up the largest portion of the Russian-speaking community. The last decade experienced an influx from various Western countries and some African regions. A portion of the African immigrants have settled in the Afrikanisches Viertel. Young Germans, EU-Europeans and Israelis have also settled in the city.
@@ -399,9 +397,6 @@ Religion in Berlin (2022)
   Islam (4%)
   Jewish (1%)
   Other (0.5%)
-
-
-
 
 Clockwise from top left: Berlin Cathedral, New Synagogue, Şehitlik Mosque, and St. Hedwig's Cathedral
 On the report of the 2011 census, approximately 37 percent of the population reported being members of a legally-recognized church or religious organization. The rest either did not belong to such an organization, or there was no information available about them.
@@ -449,18 +444,13 @@ Capital city
 Berlin is the capital of the Federal Republic of Germany. The President of Germany, whose functions are mainly ceremonial under the German constitution, has their official residence in Bellevue Palace. Berlin is the seat of the German Chancellor (Prime Minister), housed in the Chancellery building, the Bundeskanzleramt. Facing the Chancellery is the Bundestag, the German Parliament, housed in the renovated Reichstag building since the government's relocation to Berlin in 1998. The Bundesrat ("federal council", performing the function of an upper house) is the representation of the 16 constituent states (Länder) of Germany and has its seat at the former Prussian House of Lords. The total annual federal budget managed by the German government exceeded €310 ($375) billion in 2013.
 
 The Federal Chancellery building, seat of the Chancellor of Germany
-The Federal Chancellery building, seat of the Chancellor of Germany
 
-The Reichstag, seat of the Bundestag
 The Reichstag, seat of the Bundestag
 
 Schloss Bellevue, seat of the President of Germany
-Schloss Bellevue, seat of the President of Germany
 
 Prussian House of Lords, seat of the Bundesrat of Germany
-Prussian House of Lords, seat of the Bundesrat of Germany
 
-Headquarters of the Federal Intelligence Service
 Headquarters of the Federal Intelligence Service
 The relocation of the federal government and Bundestag to Berlin was mostly completed in 1999. However, some ministries, as well as some minor departments, stayed in the federal city Bonn, the former capital of West Germany. Discussions about moving the remaining ministries and departments to Berlin continue.
 
@@ -680,7 +670,6 @@ The Jewish Museum presents two millennia of German–Jewish history.
 As of 2011 Berlin is home to 138 museums and more than 400 art galleries. The ensemble on the Museum Island is a UNESCO World Heritage Site and is in the northern part of the Spree Island between the Spree and the Kupfergraben. As early as 1841 it was designated a "district dedicated to art and antiquities" by a royal decree. Subsequently, the Altes Museum was built in the Lustgarten. The Neues Museum, which displays the bust of Queen Nefertiti, Alte Nationalgalerie, Pergamon Museum, and Bode Museum were built there.
 
 Apart from the Museum Island, there are many additional museums in the city. The Gemäldegalerie (Painting Gallery) focuses on the paintings of the "old masters" from the 13th to the 18th centuries, while the Neue Nationalgalerie (New National Gallery, built by Ludwig Mies van der Rohe) specializes in 20th-century European painting. The Hamburger Bahnhof, in Moabit, exhibits a major collection of modern and contemporary art. The expanded Deutsches Historisches Museum reopened in the Zeughaus with an overview of German history spanning more than a millennium. The Bauhaus Archive is a museum of 20th-century design from the famous Bauhaus school. Museum Berggruen houses the collection of noted 20th century collector Heinz Berggruen, and features an extensive assortment of works by Picasso, Matisse, Cézanne, and Giacometti, among others. The Kupferstichkabinett Berlin (Museum of Prints and Drawings) is part of the Staatlichen Museen zu Berlin (Berlin State Museums) and the Kulturforum at Potsdamer Platz in the Tiergarten district of Berlin's Mitte district. It is the largest museum of the graphic arts in Germany and at the same time one of the four most important collections of its kind in the world. The collection includes Friedrich Gilly's design for the monument to Frederick II of Prussia.
-
 
 The reconstructed Ishtar Gate of Babylon at the Pergamon Museum
 The Jewish Museum has a standing exhibition on two millennia of German-Jewish history. The German Museum of Technology in Kreuzberg has a large collection of historical technical artifacts. The Museum für Naturkunde (Berlin's natural history museum) exhibits natural history near Berlin Hauptbahnhof. It has the largest mounted dinosaur in the world (a Giraffatitan skeleton). A well-preserved specimen of Tyrannosaurus rex and the early bird Archaeopteryx are at display as well.

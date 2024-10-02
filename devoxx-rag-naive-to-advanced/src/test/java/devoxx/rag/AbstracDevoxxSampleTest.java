@@ -63,6 +63,7 @@ public abstract class AbstracDevoxxSampleTest {
                 .project(System.getenv("GCP_PROJECT_ID"))
                 .location(System.getenv("GCP_LOCATION"))
                 .modelName(modelName)
+                .maxRetries(5)
                 .build();
     }
 
@@ -83,6 +84,7 @@ public abstract class AbstracDevoxxSampleTest {
                 .location(System.getenv("GCP_LOCATION"))
                 .publisher("google")
                 .modelName(modelName)
+                .maxRetries(5)
                 .build();
     }
 
