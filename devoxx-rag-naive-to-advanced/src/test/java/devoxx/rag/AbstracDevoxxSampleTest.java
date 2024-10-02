@@ -86,6 +86,7 @@ public abstract class AbstracDevoxxSampleTest {
                 .location(System.getenv("GCP_LOCATION"))
                 .publisher("google")
                 .modelName(modelName)
+                .maxSegmentsPerBatch(100)
                 .maxRetries(5)
                 .build();
     }
