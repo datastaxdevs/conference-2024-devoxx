@@ -18,7 +18,7 @@ public class _11_astradb_101 extends AbstracDevoxxSampleTest {
 
     @Test
     public void testAstraDB() {
-        System.out.println(yellow("Connect Vector Database"));
+        System.out.println(yellow("Connect to vector database"));
 
         // Create Collection
         Collection<Document> vectorStore = new DataAPIClient(ASTRA_TOKEN)
@@ -32,11 +32,11 @@ public class _11_astradb_101 extends AbstracDevoxxSampleTest {
                 .append("content", "Hello World")
                 .vector(new float[] {.2f, .2f, .2f, .2f, .2f});
         vectorStore.insertOne(document);
-        System.out.println(cyan("[OK] ") + " Document inserted");
+        System.out.println(cyan("[OK] ") + " Document inserted via AstraDB SDK");
 
-        // With LangChain4J
+        // With LangChain4j
         EmbeddingStore<TextSegment> embeddingStore = new AstraDbEmbeddingStore(vectorStore);
         embeddingStore.add(Embedding.from(new float[] {.2f, .2f, .2f, .2f, .2f}), TextSegment.from("Hello World"));
-        System.out.println(cyan("[OK] ") + " Document inserted with store");
+        System.out.println(cyan("[OK] ") + " Document inserted with embedding store");
     }
 }

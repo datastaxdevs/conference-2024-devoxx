@@ -28,7 +28,7 @@ class _10_vertexai_101 extends AbstracDevoxxSampleTest {
                 .build();
         String question = "What is the sky bue ?";
         System.out.println(cyan("Question: ") + question);
-        Response<AiMessage> response = chatModel.generate(UserMessage.from( question));
+        Response<AiMessage> response = chatModel.generate(UserMessage.from(question));
         prettyPrint(response);
     }
 
@@ -37,19 +37,24 @@ class _10_vertexai_101 extends AbstracDevoxxSampleTest {
     public static class PrettyPrintStreamingResponseHandler
             implements StreamingResponseHandler<AiMessage> {
         @Override
-        public void onNext(String s) { System.out.println(s); }
+        public void onNext(String s) { System.out.print(s); }
         @Override
-        public void onComplete(Response<AiMessage> response) {  prettyPrint(response);}
+        public void onComplete(Response<AiMessage> response) {
+            System.out.println();
+            prettyPrintMetadata(response);
+        }
         @Override
-        public void onError(Throwable throwable) { System.out.println("Error : " + throwable.getMessage());}
+        public void onError(Throwable throwable) { System.out.println("Error : " + throwable.getMessage()); }
     }
 
     @Test
     public void should_chat_language_model_streaming() {
         System.out.println(yellow("Using Chat Model (Streaming):"));
-        String question = "Give me a poem in 20 sentences about DEVOXX";
+        String question = "Give me a poem in 20 sentences about the Devoxx conference, taking place in Antwerp";
         System.out.println(cyan("Question: ") + question);
-        getChatLanguageModelStreaming(MODEL_GEMINI_PRO).generate(question,new PrettyPrintStreamingResponseHandler());
+
+        getChatLanguageModelStreaming(MODEL_GEMINI_PRO)
+            .generate(question, new PrettyPrintStreamingResponseHandler());
     }
 
 }

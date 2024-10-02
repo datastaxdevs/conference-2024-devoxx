@@ -2,9 +2,7 @@ package devoxx.rag;
 
 import com.datastax.astra.client.Collection;
 import com.datastax.astra.client.DataAPIClient;
-import com.datastax.astra.client.DataAPIOptions;
 import com.datastax.astra.client.model.Document;
-import com.datastax.astra.internal.command.LoggingCommandObserver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.langchain4j.data.document.DocumentSplitter;
 import dev.langchain4j.data.document.loader.FileSystemDocumentLoader;
@@ -12,7 +10,6 @@ import dev.langchain4j.data.document.parser.TextDocumentParser;
 import dev.langchain4j.data.document.splitter.DocumentSplitters;
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.segment.TextSegment;
-import dev.langchain4j.model.StreamingResponseHandler;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
@@ -39,7 +36,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.datastax.astra.client.model.SimilarityMetric.COSINE;
 import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
-import static com.datastax.astra.internal.utils.AnsiUtils.yellow;
 import static dev.langchain4j.data.document.loader.FileSystemDocumentLoader.loadDocument;
 
 /**
@@ -52,12 +48,11 @@ public abstract class AbstracDevoxxSampleTest {
     // ------------------------------------------------------------
 
     // Chat Models
-    protected final String MODEL_GEMINI_PRO       = "gemini-pro";
-    protected final String MODEL_GEMINI_FLASH     = "gemini-flash";
+    protected final String MODEL_GEMINI_PRO       = "gemini-1.5-pro";
+    protected final String MODEL_GEMINI_FLASH     = "gemini-1.5-flash";
 
     // Embedding Models
     // https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/text-embeddings-api?hl=en&authuser=2
-    protected final String MODEL_EMBEDDING_GECKO        = "textembedding-gecko@001";
     protected final String MODEL_EMBEDDING_MULTILINGUAL = "text-multilingual-embedding-002";
     protected final String MODEL_EMBEDDING_TEXT         = "text-embedding-004";
     protected final int    MODEL_EMBEDDING_DIMENSION    = 768;
@@ -137,13 +132,13 @@ public abstract class AbstracDevoxxSampleTest {
                 .recursive(300, 0);
         List<TextSegment> segments = splitter.split(document);
         EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
-        embeddingStore.addAll(getEmbeddingModel(MODEL_EMBEDDING_GECKO).embedAll(segments).content(), segments);
+        embeddingStore.addAll(getEmbeddingModel(MODEL_EMBEDDING_TEXT).embedAll(segments).content(), segments);
 
         //ingestDocument(fileName, getEmbeddingModel(MODEL_EMBEDDING_GECKO), embeddingStore);
 
         return EmbeddingStoreContentRetriever.builder()
                 .embeddingStore(embeddingStore)
-                .embeddingModel(getEmbeddingModel(MODEL_EMBEDDING_GECKO))
+                .embeddingModel(getEmbeddingModel(MODEL_EMBEDDING_TEXT))
                 .maxResults(2)
                 .minScore(0.6)
                 .build();
@@ -156,10 +151,10 @@ public abstract class AbstracDevoxxSampleTest {
                                 .getResource(fileName))
                         .getFile()).toPath(), new TextDocumentParser()));
         EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
-        embeddingStore.addAll(getEmbeddingModel(MODEL_EMBEDDING_GECKO).embedAll(segments).content(), segments);
+        embeddingStore.addAll(getEmbeddingModel(MODEL_EMBEDDING_TEXT).embedAll(segments).content(), segments);
         return EmbeddingStoreContentRetriever.builder()
                 .embeddingStore(embeddingStore)
-                .embeddingModel(getEmbeddingModel(MODEL_EMBEDDING_GECKO))
+                .embeddingModel(getEmbeddingModel(MODEL_EMBEDDING_TEXT))
                 .maxResults(2)
                 .minScore(0.6);
     }
@@ -175,21 +170,26 @@ public abstract class AbstracDevoxxSampleTest {
      *      AI Response
      */
     protected static void prettyPrint(Response<AiMessage> response) {
-        System.out.println(cyan("RESPONSE TEXT:"));
-        System.out.println(response.content().text().replaceAll("\\n\\n", "\\n"));
+        System.out.println(cyan("\nRESPONSE TEXT:"));
+        System.out.println(response.content().text().replaceAll("\\n", "\n"));
         System.out.println();
-        System.out.println(cyan("RESPONSE METADATA:"));
-        if (response.finishReason()!=null) {
-            System.out.println("Finish Reason : " + cyan(response.finishReason().toString()));
-        }
-        if (response.tokenUsage()!=null) {
-            System.out.println("Tokens Input  : " + cyan(String.valueOf(response.tokenUsage().inputTokenCount())));
-            System.out.println("Tokens Output : " + cyan(String.valueOf(response.tokenUsage().outputTokenCount())));
-            System.out.println("Tokens Total  :  " + cyan(String.valueOf(response.tokenUsage().totalTokenCount())));
-        }
+
+        prettyPrintMetadata(response);
     }
 
+    protected static void prettyPrintMetadata(Response<AiMessage> response) {
+        System.out.println(cyan("\nRESPONSE METADATA:"));
 
+        if (response.finishReason() != null) {
+            System.out.println("Finish Reason : " + cyan(response.finishReason().toString()));
+        }
+
+        if (response.tokenUsage() != null) {
+            System.out.println("Tokens Input  : " + cyan(String.valueOf(response.tokenUsage().inputTokenCount())));
+            System.out.println("Tokens Output : " + cyan(String.valueOf(response.tokenUsage().outputTokenCount())));
+            System.out.println("Tokens Total  : " + cyan(String.valueOf(response.tokenUsage().totalTokenCount())));
+        }
+    }
 
     protected static String formatLongString(String input) {
         int limit = 100;
