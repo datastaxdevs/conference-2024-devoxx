@@ -32,19 +32,19 @@ public class _31_default_splitters extends AbstracDevoxxSampleTest  {
             System.out.println("-> " + formatLongString(chunk.text().replaceAll("\\n", "\\n")));
         }
 
-        System.out.println(cyan("By Characters SPLITTER"));
+        System.out.println(cyan("SPLIT BY CHARACTERS"));
         List<TextSegment> chunks2 = new DocumentByCharacterSplitter(300, 20).split(document);
         for (TextSegment chunk : chunks2) {
             System.out.println("-" + formatLongString(chunk.text()));
         }
 
-        System.out.println(cyan("By Characters SPLITTER"));
+        System.out.println(cyan("SPLIT BY LINES"));
         List<TextSegment> chunks3 = new DocumentByLineSplitter(300, 20).split(document);
         for (TextSegment chunk : chunks3) {
             System.out.println("-" + formatLongString(chunk.text()));
         }
 
-        System.out.println(cyan("By Characters SPLITTER"));
+        System.out.println(cyan("SPLIT BY SENTENCES"));
         List<TextSegment> chunks4 = new DocumentBySentenceSplitter(300, 20).split(document);
         for (TextSegment chunk : chunks4) {
             System.out.println("-" + formatLongString(chunk.text()));

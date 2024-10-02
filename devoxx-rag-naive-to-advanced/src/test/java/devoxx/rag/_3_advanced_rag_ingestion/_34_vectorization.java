@@ -10,7 +10,7 @@ public class _34_vectorization {
     String chunk = "Devoxx is the greatest conference to developer to know about the latest innovations in the tech world";
 
     @Test
-    public void bagOfWorldTokenization() {
+    public void bagOfWordTokenization() {
         // Convert the sentence to lowercase and split by space to get words
         String[] words = chunk.toLowerCase().split(" ");
         // Create a Bag of Words using a HashMap
