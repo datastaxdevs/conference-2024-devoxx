@@ -1,4 +1,4 @@
-package devoxx.rag.guillaume;
+package devoxx.rag.experiments;
 
 import com.google.cloud.vertexai.api.Schema;
 import com.google.cloud.vertexai.api.Type;

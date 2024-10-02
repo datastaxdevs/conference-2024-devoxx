@@ -1,4 +1,4 @@
-package devoxx.rag.guillaume;
+package devoxx.rag.experiments;
 
 import dev.langchain4j.data.document.splitter.DocumentBySentenceSplitter;
 import dev.langchain4j.data.embedding.Embedding;

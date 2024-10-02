@@ -1,16 +1,20 @@
-package devoxx.rag.guillaume;
+package devoxx.rag.experiments;
 
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.loader.FileSystemDocumentLoader;
 import dev.langchain4j.data.document.parser.apache.pdfbox.ApachePdfBoxDocumentParser;
 import dev.langchain4j.data.document.splitter.DocumentSplitters;
 import dev.langchain4j.data.segment.TextSegment;
+import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.input.PromptTemplate;
 import dev.langchain4j.model.vertexai.VertexAiEmbeddingModel;
 import dev.langchain4j.model.vertexai.VertexAiGeminiChatModel;
-import dev.langchain4j.rag.content.Content;
+import dev.langchain4j.rag.DefaultRetrievalAugmentor;
+import dev.langchain4j.rag.content.injector.DefaultContentInjector;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
-import dev.langchain4j.rag.query.Query;
+import dev.langchain4j.service.AiServices;
+import dev.langchain4j.service.Result;
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
 
@@ -18,9 +22,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class _40_naive_rag {
+public class _44_naive_rag_with_ai_services_custom_prompt {
     public static void main(String[] args) throws IOException, URISyntaxException {
         // ===============
         // INGESTION PHASE
@@ -60,34 +63,42 @@ public class _40_naive_rag {
             .maxOutputTokens(1000)
             .build();
 
-        EmbeddingStoreContentRetriever retriever =
-            new EmbeddingStoreContentRetriever(
-                embeddingStore, embeddingModel, 3, 0.7);
+        EmbeddingStoreContentRetriever retriever = //TODO change max results
+            new EmbeddingStoreContentRetriever(embeddingStore, embeddingModel, 1);
+
+        interface CarExpert {
+            Result<String> ask(String question);
+        }
+
+        CarExpert expert = AiServices.builder(CarExpert.class)
+            .chatLanguageModel(model)
+            .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
+            .retrievalAugmentor(DefaultRetrievalAugmentor.builder()
+                .contentInjector(DefaultContentInjector.builder()
+                    .promptTemplate(PromptTemplate.from("""
+                        You are an expert in car automotive, and you answer concisely.
+
+                        Here is the question: {{userMessage}}
+
+                        If you don't know the answer, reply that you don't know the answer.
+
+                        Answer exclusively using the following information:
+                        {{contents}}
+                        """))
+                    .build())
+                .contentRetriever(retriever)
+                .build())
+            .build();
 
         System.out.println("Ready!\n");
         List.of(
             "What is the cargo capacity of Cymbal Starlight?",
             "What's the emergency roadside assistance phone number?",
-            "Are there some special kits available on that car?"
+            "Are there some repair kits available on that car?"
         ).forEach(query -> {
-            List<Content> retrieved = retriever.retrieve(Query.from(query));
-
-            String sources = retrieved.stream()
-                .map(content -> content.textSegment().text())
-                .collect(Collectors.joining("\n---\n", "\n---\n", "\n---\n"));
-
-            String response = model.generate("""
-                You are an expert in car automotive, and you answer concisely.
-
-                Here is the question: %s
-
-                If you don't know the answer, reply that you don't know the answer.
-
-                Answer exclusively using the following information:
-                %s
-                """.formatted(query, sources));
-
-            System.out.printf("%n=== %s === %n%n %s %n%n %s", query, response, sources);
+            Result<String> response = expert.ask(query);
+            System.out.printf("%n=== %s === %n%n %s %n%n", query, response.content());
+            System.out.println("SOURCE: " + response.sources().getFirst().textSegment().text());
         });
     }
 }

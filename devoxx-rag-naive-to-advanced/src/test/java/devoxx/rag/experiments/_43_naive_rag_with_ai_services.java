@@ -1,4 +1,4 @@
-package devoxx.rag.guillaume;
+package devoxx.rag.experiments;
 
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.loader.FileSystemDocumentLoader;
@@ -7,11 +7,8 @@ import dev.langchain4j.data.document.splitter.DocumentSplitters;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.input.PromptTemplate;
 import dev.langchain4j.model.vertexai.VertexAiEmbeddingModel;
 import dev.langchain4j.model.vertexai.VertexAiGeminiChatModel;
-import dev.langchain4j.rag.DefaultRetrievalAugmentor;
-import dev.langchain4j.rag.content.injector.DefaultContentInjector;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.Result;
@@ -22,8 +19,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class _44_naive_rag_with_ai_services_custom_prompt {
+public class _43_naive_rag_with_ai_services {
     public static void main(String[] args) throws IOException, URISyntaxException {
         // ===============
         // INGESTION PHASE
@@ -63,8 +61,8 @@ public class _44_naive_rag_with_ai_services_custom_prompt {
             .maxOutputTokens(1000)
             .build();
 
-        EmbeddingStoreContentRetriever retriever = //TODO change max results
-            new EmbeddingStoreContentRetriever(embeddingStore, embeddingModel, 1);
+        EmbeddingStoreContentRetriever retriever =
+            new EmbeddingStoreContentRetriever(embeddingStore, embeddingModel);
 
         interface CarExpert {
             Result<String> ask(String question);
@@ -73,21 +71,7 @@ public class _44_naive_rag_with_ai_services_custom_prompt {
         CarExpert expert = AiServices.builder(CarExpert.class)
             .chatLanguageModel(model)
             .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
-            .retrievalAugmentor(DefaultRetrievalAugmentor.builder()
-                .contentInjector(DefaultContentInjector.builder()
-                    .promptTemplate(PromptTemplate.from("""
-                        You are an expert in car automotive, and you answer concisely.
-
-                        Here is the question: {{userMessage}}
-
-                        If you don't know the answer, reply that you don't know the answer.
-
-                        Answer exclusively using the following information:
-                        {{contents}}
-                        """))
-                    .build())
-                .contentRetriever(retriever)
-                .build())
+            .contentRetriever(retriever)
             .build();
 
         System.out.println("Ready!\n");
@@ -96,9 +80,16 @@ public class _44_naive_rag_with_ai_services_custom_prompt {
             "What's the emergency roadside assistance phone number?",
             "Are there some repair kits available on that car?"
         ).forEach(query -> {
+
             Result<String> response = expert.ask(query);
+
             System.out.printf("%n=== %s === %n%n %s %n%n", query, response.content());
-            System.out.println("SOURCE: " + response.sources().getFirst().textSegment().text());
+
+            String sources = response.sources().stream()
+                .map(c -> c.textSegment().text())
+                .collect(Collectors.joining("\n---\n", "\n---\n", "\n---\n"));
+
+            System.out.println("SOURCES:\n" + sources);
         });
     }
 }

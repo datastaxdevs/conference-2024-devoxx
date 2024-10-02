@@ -1,4 +1,4 @@
-package devoxx.rag.guillaume;
+package devoxx.rag.experiments;
 
 import java.util.List;
 import java.util.stream.Collectors;
