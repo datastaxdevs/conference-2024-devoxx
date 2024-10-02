@@ -43,10 +43,10 @@ public class _33_vectors_similarity extends AbstracDevoxxSampleTest  {
         Response<Embedding> embeddingTwo = embeddingModel.embed("puppy");
 
         // Cosine Similarity
-        System.out.println(cyan("Cosine Similarity: ") +
+        System.out.println(cyan("    Cosine Similarity: ") +
                 CosineSimilarity.between(embeddingOne.content(), embeddingTwo.content()));
 
-        System.out.println(cyan("Euclidean Similarity: ") +
+        System.out.println(cyan(" Euclidean Similarity: ") +
                 euclideanDistance(embeddingOne.content().vectorAsList(),
                         embeddingTwo.content().vectorAsList()));
 
