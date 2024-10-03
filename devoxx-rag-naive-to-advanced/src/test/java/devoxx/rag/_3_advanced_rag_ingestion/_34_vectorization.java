@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class _34_vectorization {
 
-    String chunk = "Devoxx is the greatest conference to developer to know about the latest innovations in the tech world";
+    String chunk = "Devoxx is the greatest conference for developers to know about the latest innovations in the tech world";
 
     @Test
     public void bagOfWordTokenization() {
