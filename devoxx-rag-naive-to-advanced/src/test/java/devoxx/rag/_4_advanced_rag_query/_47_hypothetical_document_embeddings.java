@@ -19,7 +19,7 @@ import java.util.List;
 import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
 import static com.datastax.astra.internal.utils.AnsiUtils.yellow;
 
-public class _46_hypothetical_document_embeddings extends AbstractDevoxxTest {
+public class _47_hypothetical_document_embeddings extends AbstractDevoxxTest {
 
     @Test
     public void hydetheticalDocumentEmbeddings() {

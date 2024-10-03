@@ -9,6 +9,7 @@ import dev.langchain4j.rag.content.injector.DefaultContentInjector;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.service.AiServices;
+import dev.langchain4j.store.embedding.filter.comparison.IsEqualTo;
 import devoxx.rag.AbstractDevoxxTest;
 import devoxx.rag.Assistant;
 import org.junit.jupiter.api.Test;
@@ -19,12 +20,12 @@ import static com.datastax.astra.internal.utils.AnsiUtils.yellow;
 import static java.util.Arrays.asList;
 
 
-public class _40_metadata_filtering extends AbstractDevoxxTest {
+public class _43_vectordb_metadata_filtering extends AbstractDevoxxTest {
 
     static final String COLLECTION_NAME = "quote";
 
     @Test
-    public void should_show_metadata() throws TooManyDocumentsToCountException {
+    public void should_filter_on_metadata() throws TooManyDocumentsToCountException {
         System.out.println(yellow("Count documents"));
         System.out.println(getCollection(COLLECTION_NAME).countDocuments(1000));
 
@@ -42,6 +43,7 @@ public class _40_metadata_filtering extends AbstractDevoxxTest {
         ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
                 .embeddingStore(new AstraDbEmbeddingStore(getCollection(COLLECTION_NAME)))
                 .embeddingModel(getEmbeddingModel(MODEL_EMBEDDING_TEXT))
+                .filter(new IsEqualTo("authors", "aristotle"))
                 .maxResults(2)
                 .minScore(0.5)
                 .build();
@@ -65,8 +67,7 @@ public class _40_metadata_filtering extends AbstractDevoxxTest {
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                 .build();
 
-
-        String response = ai.answer("Who is Johnny?");
+        String response = ai.answer("What did Aristotle say about the good life?");
         System.out.println(response);
     }
 

@@ -20,7 +20,7 @@ import java.util.List;
 import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
 import static com.datastax.astra.internal.utils.AnsiUtils.yellow;
 
-public class _40_vectorsearch_similarity extends AbstractDevoxxTest {
+public class _42_vectordb_similarity extends AbstractDevoxxTest {
 
 
     List<String> sentences = Arrays.asList(

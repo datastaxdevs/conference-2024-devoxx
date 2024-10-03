@@ -9,7 +9,7 @@ import devoxx.rag.AbstractDevoxxTest;
 import devoxx.rag.Assistant;
 import org.junit.jupiter.api.Test;
 
-public class _42_query_compression extends AbstractDevoxxTest {
+public class _41_preprocessing_query_compression extends AbstractDevoxxTest {
 
 
     @Test
@@ -17,7 +17,7 @@ public class _42_query_compression extends AbstractDevoxxTest {
 
         RetrievalAugmentor retrievalAugmentor = DefaultRetrievalAugmentor.builder()
                 // Commons Retriever
-                .contentRetriever(createRetriever("/text/johnny.txt"))
+                .contentRetriever(createRetriever("/text/berlin.txt"))
                 // Add a Query Transformation
                 .queryTransformer(new CompressingQueryTransformer(getChatLanguageModel(MODEL_GEMINI_PRO)))
                 .build();
@@ -28,9 +28,7 @@ public class _42_query_compression extends AbstractDevoxxTest {
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                 .build();
 
-        System.out.println(assistant.answer("Give me the name of the horse"));
-        System.out.println(assistant.answer("Can you tell where he lives ?"));
-        System.out.println(assistant.answer("What does he do ?"));
+        System.out.println(assistant.answer("What is the population of Berlin ?"));
 
     }
 

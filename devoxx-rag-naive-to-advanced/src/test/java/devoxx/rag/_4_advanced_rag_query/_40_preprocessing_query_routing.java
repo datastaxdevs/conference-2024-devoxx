@@ -13,13 +13,12 @@ import org.junit.jupiter.api.Test;
 import java.util.Collection;
 import java.util.List;
 
-public class _41_query_routing extends AbstractDevoxxTest {
+public class _40_preprocessing_query_routing extends AbstractDevoxxTest {
 
 
     @Test
     public void testQueryRouting() {
         // Our guy for advanced RAG
-
         RetrievalAugmentor retrievalAugmentor = DefaultRetrievalAugmentor.builder()
                 .queryRouter(new MyRouter())
                 .build();

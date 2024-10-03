@@ -104,8 +104,8 @@ public abstract class AbstractDevoxxTest {
     public Database getAstraDatabase() {
         // verbose
         //return new DataAPIClient(ASTRA_TOKEN).getDatabase(ASTRA_API_ENDPOINT);
-        return new DataAPIClient(ASTRA_TOKEN)
-                //DataAPIOptions.builder().withObserver(new LoggingCommandObserver(AbstractDevoxxTest.class)).build())
+        return new DataAPIClient(ASTRA_TOKEN,
+                DataAPIOptions.builder().withObserver(new LoggingCommandObserver(AbstractDevoxxTest.class)).build())
                 .getDatabase(ASTRA_API_ENDPOINT);
     }
 

@@ -1,6 +1,5 @@
 package devoxx.rag._4_advanced_rag_query;
 
-import com.datastax.astra.client.model.Document;
 import com.datastax.astra.langchain4j.store.embedding.AstraDbEmbeddingStore;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
@@ -9,7 +8,6 @@ import dev.langchain4j.store.embedding.EmbeddingMatch;
 import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import devoxx.rag.AbstractDevoxxTest;
-import devoxx.rag.Quote;
 import devoxx.rag.bm25.Bm25ScoringModel;
 import devoxx.rag.bm25.Language;
 import org.junit.jupiter.api.Test;
@@ -19,9 +17,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-import static dev.langchain4j.store.embedding.filter.MetadataFilterBuilder.metadataKey;
-
-public class _43_bm25_reranking extends AbstractDevoxxTest {
+public class _44_reranking_bm25 extends AbstractDevoxxTest {
 
     private static final String COLLECTION_NAME = "quote";
 

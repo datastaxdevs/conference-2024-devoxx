@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
  * ReRanking
  * https://dashboard.cohere.com/welcome/register
  */
-public class _44_aggregation_reranking extends AbstractDevoxxTest {
+public class _45_reranking_cohere extends AbstractDevoxxTest {
 
     @Test
     public void shouldRerankResult() {
