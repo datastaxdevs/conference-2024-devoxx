@@ -68,7 +68,7 @@ public class _36_chunks_with_wider_context extends AbstractDevoxxTest {
             .build());
 
         searchResults.matches().forEach(match -> {
-            System.out.println(yellow("\n-> Score: " + match.score()) +
+            System.out.println(yellow("\n-> Similarity: " + match.score()) +
                 "\n" + cyan("Embedded child: ") + match.embedded().text() +
                 "\n" + cyan("Parent context: ") + match.embedded().metadata().getString(PARENT_CONTEXT_KEY));
         });
