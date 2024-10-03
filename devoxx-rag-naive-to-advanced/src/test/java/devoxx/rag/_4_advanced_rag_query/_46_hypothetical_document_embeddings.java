@@ -11,7 +11,7 @@ import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
 import dev.langchain4j.store.embedding.EmbeddingSearchResult;
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
-import devoxx.rag.AbstracDevoxxSampleTest;
+import devoxx.rag.AbstractDevoxxTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
 import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
 import static com.datastax.astra.internal.utils.AnsiUtils.yellow;
 
-public class _46_hypothetical_document_embeddings extends AbstracDevoxxSampleTest {
+public class _46_hypothetical_document_embeddings extends AbstractDevoxxTest {
 
     @Test
     public void hydetheticalDocumentEmbeddings() {

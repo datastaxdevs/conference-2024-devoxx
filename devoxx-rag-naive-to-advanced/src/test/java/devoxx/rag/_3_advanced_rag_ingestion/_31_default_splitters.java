@@ -6,7 +6,7 @@ import dev.langchain4j.data.document.splitter.DocumentByLineSplitter;
 import dev.langchain4j.data.document.splitter.DocumentBySentenceSplitter;
 import dev.langchain4j.data.document.splitter.DocumentSplitters;
 import dev.langchain4j.data.segment.TextSegment;
-import devoxx.rag.AbstracDevoxxSampleTest;
+import devoxx.rag.AbstractDevoxxTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
 /**
  * CHUNKING DOCUMENTS
  */
-public class _31_default_splitters extends AbstracDevoxxSampleTest  {
+public class _31_default_splitters extends AbstractDevoxxTest {
 
     @Test
     public void should_chunk_document_recursive() {

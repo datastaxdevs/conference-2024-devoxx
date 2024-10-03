@@ -8,13 +8,13 @@ import com.datastax.astra.langchain4j.store.embedding.AstraDbEmbeddingStore;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.store.embedding.EmbeddingStore;
-import devoxx.rag.AbstracDevoxxSampleTest;
+import devoxx.rag.AbstractDevoxxTest;
 import org.junit.jupiter.api.Test;
 
 import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
 import static com.datastax.astra.internal.utils.AnsiUtils.yellow;
 
-public class _13_embedding_store extends AbstracDevoxxSampleTest {
+public class _13_embedding_store extends AbstractDevoxxTest {
 
     public static final String COLLECTION_NAME = "intro";
 

@@ -6,13 +6,13 @@ import dev.langchain4j.model.StreamingResponseHandler;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.output.Response;
 import dev.langchain4j.model.vertexai.VertexAiGeminiChatModel;
-import devoxx.rag.AbstracDevoxxSampleTest;
+import devoxx.rag.AbstractDevoxxTest;
 import org.junit.jupiter.api.Test;
 
 import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
 import static com.datastax.astra.internal.utils.AnsiUtils.yellow;
 
-class _10_chat_language_model extends AbstracDevoxxSampleTest {
+class _10_chat_language_model extends AbstractDevoxxTest {
 
     @Test
     public void should_chat_language_model() {

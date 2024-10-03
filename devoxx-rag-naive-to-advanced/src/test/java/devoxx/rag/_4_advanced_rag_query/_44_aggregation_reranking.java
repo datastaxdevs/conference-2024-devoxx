@@ -8,7 +8,7 @@ import dev.langchain4j.rag.RetrievalAugmentor;
 import dev.langchain4j.rag.content.aggregator.ContentAggregator;
 import dev.langchain4j.rag.content.aggregator.ReRankingContentAggregator;
 import dev.langchain4j.service.AiServices;
-import devoxx.rag.AbstracDevoxxSampleTest;
+import devoxx.rag.AbstractDevoxxTest;
 import devoxx.rag.Assistant;
 import org.junit.jupiter.api.Test;
 
@@ -17,13 +17,14 @@ import org.junit.jupiter.api.Test;
  * ReRanking
  * https://dashboard.cohere.com/welcome/register
  */
-public class _43_aggregation_reranking extends AbstracDevoxxSampleTest {
+public class _44_aggregation_reranking extends AbstractDevoxxTest {
 
     @Test
     public void shouldRerankResult() {
 
         // Re Ranking
-        ScoringModel scoringModel = CohereScoringModel.withApiKey(System.getenv("COHERE_API_KEY"));
+        ScoringModel scoringModel = CohereScoringModel
+                .withApiKey(System.getenv("COHERE_API_KEY"));
 
         ContentAggregator contentAggregator = ReRankingContentAggregator.builder()
                 .scoringModel(scoringModel)

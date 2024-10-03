@@ -4,14 +4,14 @@ import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.model.embedding.onnx.allminilml6v2q.AllMiniLmL6V2QuantizedEmbeddingModel;
 import dev.langchain4j.model.output.Response;
 import dev.langchain4j.store.embedding.CosineSimilarity;
-import devoxx.rag.AbstracDevoxxSampleTest;
+import devoxx.rag.AbstractDevoxxTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
 
-public class _33_vectors_similarity extends AbstracDevoxxSampleTest  {
+public class _33_vectors_similarity extends AbstractDevoxxTest {
 
     /**
      * Euclidean

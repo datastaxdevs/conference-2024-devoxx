@@ -14,7 +14,7 @@ import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
 import dev.langchain4j.store.embedding.EmbeddingSearchResult;
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
-import devoxx.rag.AbstracDevoxxSampleTest;
+import devoxx.rag.AbstractDevoxxTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 import static com.datastax.astra.internal.utils.AnsiUtils.*;
 
-public class _38_contextual_retrieval extends AbstracDevoxxSampleTest {
+public class _38_contextual_retrieval extends AbstractDevoxxTest {
 
     public static final String ORIGINAL = "original";
 

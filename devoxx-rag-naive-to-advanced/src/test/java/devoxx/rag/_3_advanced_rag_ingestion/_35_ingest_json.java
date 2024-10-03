@@ -7,7 +7,7 @@ import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
 import dev.langchain4j.store.embedding.EmbeddingStore;
-import devoxx.rag.AbstracDevoxxSampleTest;
+import devoxx.rag.AbstractDevoxxTest;
 import devoxx.rag.Quote;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import java.util.List;
 import static dev.langchain4j.store.embedding.filter.MetadataFilterBuilder.metadataKey;
 
 @Slf4j
-class _35_ingest_json extends AbstracDevoxxSampleTest {
+class _35_ingest_json extends AbstractDevoxxTest {
 
     static final String COLLECTION_NAME = "quote";
 

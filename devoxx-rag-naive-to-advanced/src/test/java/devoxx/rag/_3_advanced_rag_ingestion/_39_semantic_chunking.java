@@ -5,7 +5,7 @@ import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.scoring.ScoringModel;
 import dev.langchain4j.store.embedding.CosineSimilarity;
-import devoxx.rag.AbstracDevoxxSampleTest;
+import devoxx.rag.AbstractDevoxxTest;
 import devoxx.rag.experiments.Utils;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +18,7 @@ import java.util.stream.IntStream;
 import static com.datastax.astra.internal.utils.AnsiUtils.magenta;
 import static com.datastax.astra.internal.utils.AnsiUtils.yellow;
 
-public class _39_semantic_chunking extends AbstracDevoxxSampleTest {
+public class _39_semantic_chunking extends AbstractDevoxxTest {
     @Test
     public void semanticChunking() {
         String text = loadDocumentText("text/berlin.txt").text();

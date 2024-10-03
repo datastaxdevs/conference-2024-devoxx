@@ -1,14 +1,7 @@
 package devoxx.rag._4_advanced_rag_query;
 
 import com.datastax.astra.client.exception.TooManyDocumentsToCountException;
-import com.datastax.astra.client.model.Document;
-import com.datastax.astra.client.model.Filter;
-import com.datastax.astra.client.model.Filters;
-import com.datastax.astra.client.model.FindIterable;
-import com.datastax.astra.client.model.FindOptions;
-import com.datastax.astra.client.model.Projection;
 import com.datastax.astra.langchain4j.store.embedding.AstraDbEmbeddingStore;
-import dev.langchain4j.agent.tool.P;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.rag.DefaultRetrievalAugmentor;
 import dev.langchain4j.rag.RetrievalAugmentor;
@@ -16,12 +9,9 @@ import dev.langchain4j.rag.content.injector.DefaultContentInjector;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.service.AiServices;
-import devoxx.rag.AbstracDevoxxSampleTest;
+import devoxx.rag.AbstractDevoxxTest;
 import devoxx.rag.Assistant;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
 
 import static com.datastax.astra.client.model.Filters.eq;
 import static com.datastax.astra.client.model.Filters.lt;
@@ -29,7 +19,7 @@ import static com.datastax.astra.internal.utils.AnsiUtils.yellow;
 import static java.util.Arrays.asList;
 
 
-public class _40_metadata_filtering extends AbstracDevoxxSampleTest {
+public class _40_metadata_filtering extends AbstractDevoxxTest {
 
     static final String COLLECTION_NAME = "quote";
 

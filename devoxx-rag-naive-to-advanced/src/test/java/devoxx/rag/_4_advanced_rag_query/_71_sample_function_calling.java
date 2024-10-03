@@ -9,7 +9,7 @@ import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.output.Response;
 import dev.langchain4j.service.AiServices;
-import devoxx.rag.AbstracDevoxxSampleTest;
+import devoxx.rag.AbstractDevoxxTest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +17,7 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 
-public class _71_sample_function_calling extends AbstracDevoxxSampleTest {
+public class _71_sample_function_calling extends AbstractDevoxxTest {
 
     static class Calculator {
         @Tool("Adds two given numbers")

@@ -5,11 +5,11 @@ import dev.langchain4j.rag.DefaultRetrievalAugmentor;
 import dev.langchain4j.rag.RetrievalAugmentor;
 import dev.langchain4j.rag.query.transformer.CompressingQueryTransformer;
 import dev.langchain4j.service.AiServices;
-import devoxx.rag.AbstracDevoxxSampleTest;
+import devoxx.rag.AbstractDevoxxTest;
 import devoxx.rag.Assistant;
 import org.junit.jupiter.api.Test;
 
-public class _42_query_compression extends AbstracDevoxxSampleTest {
+public class _42_query_compression extends AbstractDevoxxTest {
 
 
     @Test

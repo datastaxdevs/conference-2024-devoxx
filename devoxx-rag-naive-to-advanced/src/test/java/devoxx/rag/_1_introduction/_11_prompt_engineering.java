@@ -5,13 +5,13 @@ import dev.langchain4j.data.message.SystemMessage;
 import dev.langchain4j.model.input.Prompt;
 import dev.langchain4j.model.input.PromptTemplate;
 import dev.langchain4j.model.output.Response;
-import devoxx.rag.AbstracDevoxxSampleTest;
+import devoxx.rag.AbstractDevoxxTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class _11_prompt_engineering extends AbstracDevoxxSampleTest {
+public class _11_prompt_engineering extends AbstractDevoxxTest {
 
     @Test
     public void should_use_prompt_template() {

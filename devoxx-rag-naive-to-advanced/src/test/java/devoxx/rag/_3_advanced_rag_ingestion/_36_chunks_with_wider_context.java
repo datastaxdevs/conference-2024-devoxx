@@ -11,9 +11,8 @@ import dev.langchain4j.model.input.PromptTemplate;
 import dev.langchain4j.model.output.Response;
 import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
 import dev.langchain4j.store.embedding.EmbeddingSearchResult;
-import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
-import devoxx.rag.AbstracDevoxxSampleTest;
+import devoxx.rag.AbstractDevoxxTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -23,7 +22,7 @@ import java.util.stream.IntStream;
 
 import static com.datastax.astra.internal.utils.AnsiUtils.*;
 
-public class _36_chunks_with_wider_context extends AbstracDevoxxSampleTest {
+public class _36_chunks_with_wider_context extends AbstractDevoxxTest {
 
     public static final String PARENT_CONTEXT_KEY = "parentContext";
 

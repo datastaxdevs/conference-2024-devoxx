@@ -2,7 +2,10 @@ package devoxx.rag;
 
 import com.datastax.astra.client.Collection;
 import com.datastax.astra.client.DataAPIClient;
+import com.datastax.astra.client.DataAPIOptions;
+import com.datastax.astra.client.Database;
 import com.datastax.astra.client.model.Document;
+import com.datastax.astra.internal.command.LoggingCommandObserver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.langchain4j.data.document.DocumentSplitter;
 import dev.langchain4j.data.document.loader.FileSystemDocumentLoader;
@@ -43,7 +46,7 @@ import static dev.langchain4j.data.document.loader.FileSystemDocumentLoader.load
 /**
  * Abstract Class for different tests and use cases to share configuration
  */
-public abstract class AbstracDevoxxSampleTest {
+public abstract class AbstractDevoxxTest {
 
     // ------------------------------------------------------------
     //                           GEMINI STUFF
@@ -98,16 +101,20 @@ public abstract class AbstracDevoxxSampleTest {
     public static final String ASTRA_TOKEN           = System.getenv("ASTRA_TOKEN_DEVOXX");
     public static final String ASTRA_API_ENDPOINT    = "https://57fe123e-8f47-4165-babc-0df44136e3fb-us-east1.apps.astra.datastax.com";
 
-    public Collection<Document> createCollection(String name, int dimension) {
+    public Database getAstraDatabase() {
+        // verbose
+        //return new DataAPIClient(ASTRA_TOKEN).getDatabase(ASTRA_API_ENDPOINT);
         return new DataAPIClient(ASTRA_TOKEN)
-                .getDatabase(ASTRA_API_ENDPOINT)
-                .createCollection(name, dimension, COSINE);
+                //DataAPIOptions.builder().withObserver(new LoggingCommandObserver(AbstractDevoxxTest.class)).build())
+                .getDatabase(ASTRA_API_ENDPOINT);
+    }
+
+    public Collection<Document> createCollection(String name, int dimension) {
+        return getAstraDatabase().createCollection(name, dimension, COSINE);
     }
 
     public Collection<Document> getCollection(String name) {
-        return new DataAPIClient(ASTRA_TOKEN)
-                .getDatabase(ASTRA_API_ENDPOINT)
-                .getCollection(name);
+        return getAstraDatabase().getCollection(name);
     }
 
     // ------------------------------------------------------------
@@ -115,7 +122,7 @@ public abstract class AbstracDevoxxSampleTest {
     // ------------------------------------------------------------
 
     private static void ingestDocument(String docName, EmbeddingModel model, EmbeddingStore<TextSegment> store) {
-        Path path = new File(Objects.requireNonNull(AbstracDevoxxSampleTest.class
+        Path path = new File(Objects.requireNonNull(AbstractDevoxxTest.class
                 .getResource("/" + docName)).getFile()).toPath();
         dev.langchain4j.data.document.Document document = FileSystemDocumentLoader
                 .loadDocument(path, new TextDocumentParser());
@@ -187,44 +194,19 @@ public abstract class AbstracDevoxxSampleTest {
         System.out.println(cyan("\nRESPONSE TEXT:"));
         System.out.println(response.content().text().replaceAll("\\n", "\n"));
         System.out.println();
-
         prettyPrintMetadata(response);
     }
 
     protected static void prettyPrintMetadata(Response<AiMessage> response) {
         System.out.println(cyan("\nRESPONSE METADATA:"));
-
         if (response.finishReason() != null) {
             System.out.println("Finish Reason : " + cyan(response.finishReason().toString()));
         }
-
         if (response.tokenUsage() != null) {
             System.out.println("Tokens Input  : " + cyan(String.valueOf(response.tokenUsage().inputTokenCount())));
             System.out.println("Tokens Output : " + cyan(String.valueOf(response.tokenUsage().outputTokenCount())));
             System.out.println("Tokens Total  : " + cyan(String.valueOf(response.tokenUsage().totalTokenCount())));
         }
-    }
-
-    protected static String formatLongString(String input) {
-        int limit = 100;
-        StringBuilder result = new StringBuilder();
-            int start = 0;
-
-            while (start < input.length()) {
-                int end = Math.min(start + limit, input.length());
-
-                // Move the end back to the last space within the limit to avoid breaking words
-                if (end < input.length() && input.charAt(end) != ' ') {
-                    int lastSpace = input.lastIndexOf(' ', end);
-                    if (lastSpace > start) {
-                        end = lastSpace;
-                    }
-                }
-
-                result.append(input, start, end).append("\n");
-                start = end + 1;  // Skip the space after the newline
-            }
-        return result.toString();
     }
 
     public dev.langchain4j.data.document.Document loadDocumentText(String fileName) {

@@ -8,7 +8,7 @@ import dev.langchain4j.data.document.loader.UrlDocumentLoader;
 import dev.langchain4j.data.document.parser.TextDocumentParser;
 import dev.langchain4j.data.document.parser.apache.pdfbox.ApachePdfBoxDocumentParser;
 import dev.langchain4j.data.document.parser.apache.poi.ApachePoiDocumentParser;
-import devoxx.rag.AbstracDevoxxSampleTest;
+import devoxx.rag.AbstractDevoxxTest;
 import org.junit.jupiter.api.Test;
 
 import java.net.URISyntaxException;
@@ -19,7 +19,7 @@ import java.util.Objects;
 import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
 import static com.datastax.astra.internal.utils.AnsiUtils.yellow;
 
-public class _30_loader_and_parsers extends AbstracDevoxxSampleTest {
+public class _30_loader_and_parsers extends AbstractDevoxxTest {
 
     /**
      * Get the proper parser based on the file extension.

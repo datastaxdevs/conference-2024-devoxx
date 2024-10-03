@@ -6,14 +6,14 @@ import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.query.Query;
 import dev.langchain4j.rag.query.router.QueryRouter;
 import dev.langchain4j.service.AiServices;
-import devoxx.rag.AbstracDevoxxSampleTest;
+import devoxx.rag.AbstractDevoxxTest;
 import devoxx.rag.Assistant;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 import java.util.List;
 
-public class _41_query_routing extends AbstracDevoxxSampleTest {
+public class _41_query_routing extends AbstractDevoxxTest {
 
 
     @Test
@@ -34,7 +34,7 @@ public class _41_query_routing extends AbstracDevoxxSampleTest {
 
     }
 
-    private static class MyRouter extends AbstracDevoxxSampleTest implements QueryRouter  {
+    private static class MyRouter extends AbstractDevoxxTest implements QueryRouter  {
 
         @Override
         public Collection<ContentRetriever> route(Query query) {

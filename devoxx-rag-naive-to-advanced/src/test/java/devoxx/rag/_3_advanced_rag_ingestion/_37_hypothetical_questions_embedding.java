@@ -23,7 +23,7 @@ import dev.langchain4j.model.vertexai.VertexAiGeminiChatModel;
 import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
 import dev.langchain4j.store.embedding.EmbeddingSearchResult;
 import dev.langchain4j.store.embedding.EmbeddingStore;
-import devoxx.rag.AbstracDevoxxSampleTest;
+import devoxx.rag.AbstractDevoxxTest;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 
 import static com.datastax.astra.internal.utils.AnsiUtils.*;
 
-public class _37_hypothetical_questions_embedding extends AbstracDevoxxSampleTest {
+public class _37_hypothetical_questions_embedding extends AbstractDevoxxTest {
 
     private static final Gson gson = new Gson();
     private static final String PARAGRAPH_KEY = "paragraph";
