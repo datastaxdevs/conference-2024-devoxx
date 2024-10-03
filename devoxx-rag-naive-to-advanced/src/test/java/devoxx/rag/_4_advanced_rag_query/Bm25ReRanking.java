@@ -1,5 +1,9 @@
 package devoxx.rag._4_advanced_rag_query;
 
+import dev.langchain4j.data.segment.TextSegment;
+import dev.langchain4j.model.output.Response;
+import dev.langchain4j.model.scoring.ScoringModel;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class Bm25ReRanking {
+public class Bm25ReRanking implements ScoringModel {
 
     private List<String> documents;
     private Map<String, Integer> docFreqs;
@@ -77,6 +81,14 @@ public class Bm25ReRanking {
         docIndices.sort((i1, i2) -> Double.compare(scores.get(i2), scores.get(i1)));
 
         return docIndices;
+    }
+
+    /**
+     * Reranking as BM25
+     */
+    @Override
+    public Response<List<Double>> scoreAll(List<TextSegment> list, String s) {
+        return null;
     }
 }
 
