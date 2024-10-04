@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Collection;
 import java.util.List;
 
-public class _40_preprocessing_query_routing extends AbstractDevoxxTest {
+public class _42_query_routing_custom extends AbstractDevoxxTest {
 
 
     @Test
@@ -30,9 +30,11 @@ public class _40_preprocessing_query_routing extends AbstractDevoxxTest {
 
         System.out.println(assistant.answer("Give me the name of the horse"));
         System.out.println(assistant.answer("Give me the name of the dog"));
-
     }
 
+    /**
+     * Custom Router
+     */
     private static class MyRouter extends AbstractDevoxxTest implements QueryRouter  {
 
         @Override

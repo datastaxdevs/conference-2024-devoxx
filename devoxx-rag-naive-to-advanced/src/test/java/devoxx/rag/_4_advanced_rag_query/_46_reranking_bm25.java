@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-public class _44_reranking_bm25 extends AbstractDevoxxTest {
+public class _46_reranking_bm25 extends AbstractDevoxxTest {
 
     private static final String COLLECTION_NAME = "quote";
 

@@ -16,7 +16,7 @@
         <jackson.version>2.18.0</jackson.version>
         <lombok.version>1.18.34</lombok.version>
         <langchain4j.version>0.35.0</langchain4j.version>
-        <astra-db-java.version>1.5.1</astra-db-java.version>
+        <astra-db-java.version>1.5.2</astra-db-java.version>
         <snowball.version>1.3.0.581.1</snowball.version>
         <djl.version>0.30.0</djl.version>
         <assertj.version>3.26.3</assertj.version>
@@ -83,6 +83,11 @@
         <dependency>
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j-vertex-ai-gemini</artifactId>
+            <version>${langchain4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-web-search-engine-tavily</artifactId>
             <version>${langchain4j.version}</version>
         </dependency>
         <dependency>

@@ -9,7 +9,7 @@ import devoxx.rag.AbstractDevoxxTest;
 import devoxx.rag.Assistant;
 import org.junit.jupiter.api.Test;
 
-public class _41_preprocessing_query_compression extends AbstractDevoxxTest {
+public class _43_query_compression extends AbstractDevoxxTest {
 
 
     @Test

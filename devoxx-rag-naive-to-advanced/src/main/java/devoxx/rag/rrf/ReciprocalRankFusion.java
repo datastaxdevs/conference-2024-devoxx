@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Implements Reciprocal Rank Fusion (RRF) to combine ranked results.
  */
-public class RRFReranking  {
+public class ReciprocalRankFusion {
 
     private static final int DEFAULT_K = 60;
 
@@ -19,7 +19,7 @@ public class RRFReranking  {
     /**
      * Default Constructor.
      */
-    public RRFReranking() {
+    public ReciprocalRankFusion() {
         this(DEFAULT_K);
     }
 
@@ -29,7 +29,7 @@ public class RRFReranking  {
      * @param k
      *    The RRF hyperparameter.
      */
-    public RRFReranking(int k) {
+    public ReciprocalRankFusion(int k) {
         this.k = k;
     }
 
@@ -41,7 +41,7 @@ public class RRFReranking  {
      * @return
      *      A map with document IDs and their combined RRF scores.
      */
-    public Map<TextSegment, Double> reciprocalRankFusion(List<List<TextSegment>> chunks) {
+    public Map<TextSegment, Double> score(List<List<TextSegment>> chunks) {
         Map<TextSegment, Double> rrfScores = new HashMap<>();
         // Iterate over each ranked list
         for (List<TextSegment> ranking : chunks) {

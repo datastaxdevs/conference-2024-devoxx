@@ -20,7 +20,7 @@ import static com.datastax.astra.internal.utils.AnsiUtils.yellow;
 import static java.util.Arrays.asList;
 
 
-public class _43_vectordb_metadata_filtering extends AbstractDevoxxTest {
+public class _45_vectordb_metadata_filtering extends AbstractDevoxxTest {
 
     static final String COLLECTION_NAME = "quote";
 
@@ -32,10 +32,9 @@ public class _43_vectordb_metadata_filtering extends AbstractDevoxxTest {
         // List me all quotes from Aristotle and show me the quote and tags
         System.out.println(yellow("Show Aristotle quotes"));
 
-        getCollection(COLLECTION_NAME).find(eq("authors", "aristotle"))
-                .forEach(doc -> {
-            System.out.println(doc.get("content"));
-        });
+        getCollection(COLLECTION_NAME)
+                .find(eq("authors", "aristotle"))
+                .forEach(doc -> {System.out.println(doc.get("content")); });
     }
 
     @Test

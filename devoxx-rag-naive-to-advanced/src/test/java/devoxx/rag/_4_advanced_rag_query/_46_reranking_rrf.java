@@ -7,7 +7,7 @@ import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.store.embedding.EmbeddingMatch;
 import devoxx.rag.AbstractDevoxxTest;
-import devoxx.rag.rrf.RRFReranking;
+import devoxx.rag.rrf.ReciprocalRankFusion;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -30,6 +30,7 @@ public class _46_reranking_rrf extends AbstractDevoxxTest  {
                 questionEmbedding,
                 Filters.eq("authors", "aristotle"),
                 10, 0.1d);
+
         List<EmbeddingMatch<TextSegment>> plateResults     = embeddingStore.findRelevant(
                 questionEmbedding,
                 Filters.eq("authors", "plato"),
@@ -47,7 +48,7 @@ public class _46_reranking_rrf extends AbstractDevoxxTest  {
         // RRF
         List<TextSegment> aristotleList = aristotleResults.stream().map(EmbeddingMatch::embedded).toList();
         List<TextSegment> plateList     = plateResults.stream().map(EmbeddingMatch::embedded).toList();
-        Map<TextSegment, Double> fusedResults = new RRFReranking().reciprocalRankFusion(Arrays.asList(aristotleList, plateList));
+        Map<TextSegment, Double> fusedResults = new ReciprocalRankFusion().score(Arrays.asList(aristotleList, plateList));
         System.out.println(AnsiUtils.yellow("============= RRF =============="));
         fusedResults.entrySet()
                 .stream()
