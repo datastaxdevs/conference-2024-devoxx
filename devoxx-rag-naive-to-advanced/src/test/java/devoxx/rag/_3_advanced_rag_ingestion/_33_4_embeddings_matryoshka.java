@@ -4,7 +4,7 @@ import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.model.output.Response;
 import dev.langchain4j.model.vertexai.VertexAiEmbeddingModel;
 
-public class _35_matryoshka_embeddings {
+public class _33_4_embeddings_matryoshka {
     public static void main(String[] args) {
 
         var embeddingModel768 = VertexAiEmbeddingModel.builder()

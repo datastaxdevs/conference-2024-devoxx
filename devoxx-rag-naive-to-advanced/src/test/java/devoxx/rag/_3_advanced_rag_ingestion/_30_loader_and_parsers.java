@@ -22,6 +22,57 @@ import static com.datastax.astra.internal.utils.AnsiUtils.yellow;
 public class _30_loader_and_parsers extends AbstractDevoxxTest {
 
     /**
+     * FileSystemDocumentLoader + PARSER => DOCUMENT
+     */
+    @Test
+    public void should_load_from_fileSystem()  throws URISyntaxException {
+
+        Document doc1 = parseFileSystemDocument("/text/johnny.txt");
+        prettyPrint(doc1);
+
+        Document doc2 = parseFileSystemDocument("/pdf/devoxx.pdf");
+        prettyPrint(doc2);
+
+        Document doc3 = parseFileSystemDocument("/doc/devoxx.docx");
+        prettyPrint(doc3);
+    }
+
+    /**
+     * URL Document Loader + Parser => Document
+     */
+    @Test
+    public void should_parse_url() throws URISyntaxException {
+        String url = "https://www.devoxx.com";
+        DocumentParser parser = selectParser(url);
+        Document doc = UrlDocumentLoader.load("https://www.devoxx.com", parser);
+        prettyPrint(doc);
+    }
+
+    /**
+     * Customer Document Loader + Parser => Document
+     */
+    @Test
+    public void should_parse_custom_sources() {
+        // Github
+        CustomGithubSource source = new CustomGithubSource("datastaxdevs",
+                "conference-2024-devoxx", "main",
+                "devoxx-rag-naive-to-advanced/src/test/resources/pdf/devoxx.pdf");
+        DocumentParser parser = selectParser(source.getFullUrl());
+        Document githubFile = DocumentLoader.load(source, parser);
+        prettyPrint(githubFile);
+
+        // Hugging Face DataSet
+        HugginFaceDatasetSource hugginFaceDatasetSource =
+                new HugginFaceDatasetSource("datastax",
+                        "philosopher-quotes",
+                        "philosopher-quotes.csv");
+        DocumentParser parser2 = selectParser(hugginFaceDatasetSource.getFullUrl());
+        Document hfDataset = DocumentLoader.load(hugginFaceDatasetSource, parser2);
+        prettyPrint(hfDataset);
+    }
+
+
+    /**
      * Get the proper parser based on the file extension.
      */
     private DocumentParser selectParser(String fileName) {
@@ -30,9 +81,10 @@ public class _30_loader_and_parsers extends AbstractDevoxxTest {
         switch (extension) {
             case "pdf" -> parser = new ApachePdfBoxDocumentParser();
             case "doc","docx","ppt","pptx","xlsx","xls" -> parser = new ApachePoiDocumentParser();
-            case "html","txt" -> parser = new TextDocumentParser();
+            case "html","txt,json,csv" -> parser = new TextDocumentParser();
             default -> parser = new TextDocumentParser();
         }
+        System.out.println(cyan("Parser: ") + parser.getClass().getSimpleName());
         return parser;
     }
 
@@ -41,20 +93,8 @@ public class _30_loader_and_parsers extends AbstractDevoxxTest {
      */
     private Document parseFileSystemDocument(String fileName) throws URISyntaxException {
         DocumentParser parser = selectParser(fileName);
-        System.out.println(cyan("Parser: ") + parser.getClass().getSimpleName());
-        Path path = Paths.get(Objects
-                .requireNonNull(getClass()
-                        .getResource(fileName)).toURI());
+        Path path = Paths.get(Objects.requireNonNull(getClass().getResource(fileName)).toURI());
         return FileSystemDocumentLoader.loadDocument(path, parser);
-    }
-
-    /**
-     * Create a document from a file
-     */
-    private Document parseURL(String url) throws URISyntaxException {
-        DocumentParser parser = selectParser(url);
-        System.out.println(cyan("Parser: ") + parser.getClass().getSimpleName());
-        return UrlDocumentLoader.load(url, parser);
     }
 
     /**
@@ -68,37 +108,5 @@ public class _30_loader_and_parsers extends AbstractDevoxxTest {
         System.out.println("\n" + yellow("content") + " :\n" + doc.text().replaceAll("\\n\\n", " "));
         System.out.println("------------------------------------\n");
     }
-
-    @Test
-    public void should_parse_filesystem()  throws URISyntaxException {
-
-        Document doc1 = parseFileSystemDocument("/text/johnny.txt");
-        prettyPrint(doc1);
-
-        Document doc2 = parseFileSystemDocument("/pdf/devoxx.pdf");
-        prettyPrint(doc2);
-
-        Document doc3 = parseFileSystemDocument("/doc/devoxx.docx");
-        prettyPrint(doc3);
-    }
-
-    @Test
-    public void should_parse_url() throws URISyntaxException {
-        Document url1 = parseURL("https://www.devoxx.com");
-        prettyPrint(url1);
-    }
-
-
-    @Test
-    public void should_parse_custom_source() {
-        CustomGithubSource source = new CustomGithubSource("datastaxdevs",
-                "conference-2024-devoxx", "main",
-                "devoxx-rag-naive-to-advanced/src/test/resources/pdf/devoxx.pdf");
-
-        DocumentParser parser = selectParser(source.getFullUrl());
-        Document githubFile = DocumentLoader.load(source, parser);
-        prettyPrint(githubFile);
-    }
-
 
 }

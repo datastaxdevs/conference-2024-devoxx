@@ -16,7 +16,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class _34_tokenizers {
+public class _33_1_embeddings_tokenizers {
 
     String chunk = "Devoxx is the greatest conference for developers to know about " +
             "the latest innovations in the tech world";

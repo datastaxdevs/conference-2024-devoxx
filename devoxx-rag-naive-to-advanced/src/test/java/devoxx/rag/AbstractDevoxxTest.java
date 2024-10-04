@@ -145,9 +145,6 @@ public abstract class AbstractDevoxxTest {
         List<TextSegment> segments = splitter.split(document);
         EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
         embeddingStore.addAll(getEmbeddingModel(MODEL_EMBEDDING_TEXT).embedAll(segments).content(), segments);
-
-        //ingestDocument(fileName, getEmbeddingModel(MODEL_EMBEDDING_GECKO), embeddingStore);
-
         return EmbeddingStoreContentRetriever.builder()
                 .embeddingStore(embeddingStore)
                 .embeddingModel(getEmbeddingModel(MODEL_EMBEDDING_TEXT))

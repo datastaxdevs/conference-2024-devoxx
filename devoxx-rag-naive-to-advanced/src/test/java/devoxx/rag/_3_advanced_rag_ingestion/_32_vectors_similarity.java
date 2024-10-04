@@ -11,7 +11,7 @@ import java.util.List;
 
 import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
 
-public class _33_vectors_similarity extends AbstractDevoxxTest {
+public class _32_vectors_similarity extends AbstractDevoxxTest {
 
     /**
      * Euclidean

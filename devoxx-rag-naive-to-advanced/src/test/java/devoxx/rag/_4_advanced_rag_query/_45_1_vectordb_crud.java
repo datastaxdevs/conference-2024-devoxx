@@ -16,19 +16,19 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class _45_vectordb_crud extends AbstractDevoxxTest {
+public class _45_1_vectordb_crud extends AbstractDevoxxTest {
 
     private static final String COLLECTION_NAME = "quote";
 
     @Test
-    public void should_crude_with_collection() {
+    public void should_crud_with_collection() {
         String question = "We struggle all our life for nothing";
         Embedding questionEmbedding = getEmbeddingModel(MODEL_EMBEDDING_TEXT).embed(question).content();
         AstraDbEmbeddingStore embeddingStore = new AstraDbEmbeddingStore(getCollection(COLLECTION_NAME));
     }
 
     @Test
-    public void should_search_with_stdre() {
+    public void should_search_with_metadata() {
         String question = "We struggle all our life for nothing";
         Embedding questionEmbedding = getEmbeddingModel(MODEL_EMBEDDING_TEXT).embed(question).content();
         AstraDbEmbeddingStore embeddingStore = new AstraDbEmbeddingStore(new DataAPIClient(ASTRA_TOKEN,
@@ -47,6 +47,8 @@ public class _45_vectordb_crud extends AbstractDevoxxTest {
         aristotleResults.matches().forEach(match -> {
             System.out.println(AnsiUtils.cyan(BigDecimal.valueOf(match.score()).setScale(4, RoundingMode.HALF_UP).toString()) + " - " + match.embedded().text());
         });
+
     }
+
 
 }

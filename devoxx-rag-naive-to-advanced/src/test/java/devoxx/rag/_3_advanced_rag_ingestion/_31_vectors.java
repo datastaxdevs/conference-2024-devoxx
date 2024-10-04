@@ -10,7 +10,7 @@ import java.util.List;
 
 import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
 
-public class _32_vectors extends AbstractDevoxxTest {
+public class _31_vectors extends AbstractDevoxxTest {
 
     private double computeNorm(List<Float> embeddings) {
         double sum = 0;
