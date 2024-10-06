@@ -18,10 +18,7 @@ import dev.langchain4j.model.chat.StreamingChatLanguageModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.model.output.Response;
 import dev.langchain4j.model.scoring.ScoringModel;
-import dev.langchain4j.model.vertexai.VertexAiEmbeddingModel;
-import dev.langchain4j.model.vertexai.VertexAiGeminiChatModel;
-import dev.langchain4j.model.vertexai.VertexAiGeminiStreamingChatModel;
-import dev.langchain4j.model.vertexai.VertexAiScoringModel;
+import dev.langchain4j.model.vertexai.*;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.store.embedding.EmbeddingStore;
@@ -69,6 +66,12 @@ public abstract class AbstractDevoxxTest {
                 .location(System.getenv("GCP_LOCATION"))
                 .modelName(modelName)
                 .maxRetries(5)
+                .safetySettings(Map.of(
+                    HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, SafetyThreshold.BLOCK_NONE,
+                    HarmCategory.HARM_CATEGORY_HARASSMENT, SafetyThreshold.BLOCK_NONE,
+                    HarmCategory.HARM_CATEGORY_HATE_SPEECH, SafetyThreshold.BLOCK_NONE,
+                    HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, SafetyThreshold.BLOCK_NONE
+                ))
                 .build();
     }
 
