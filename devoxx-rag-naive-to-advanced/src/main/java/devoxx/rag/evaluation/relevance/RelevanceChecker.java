@@ -1,13 +1,15 @@
 package devoxx.rag.evaluation.relevance;
 
-import dev.langchain4j.data.embedding.Embedding;
-
 import java.util.Set;
 
 /**
  * Evaluate how an embedding is relevant.
+ *
+ * @param <T>
+ *     item to validates, it could be the embeddings or the text chunks depending on the use case
+ *     some user would like to override with their own structure,
  */
-public interface RelevanceChecker {
+public interface RelevanceChecker<T> {
 
     /**
      * Check relevance of embedding.
@@ -18,6 +20,6 @@ public interface RelevanceChecker {
      * @return
      *      evaluate if an embedding is relevant (for MMR algorithms)
      */
-    boolean isRelevant(Embedding retrievedDoc, Set<Embedding> groundTruth);
+    boolean isRelevant(T retrievedDoc, Set<T> groundTruth);
 
 }

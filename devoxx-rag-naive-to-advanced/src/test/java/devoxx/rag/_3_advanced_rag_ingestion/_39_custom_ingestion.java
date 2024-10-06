@@ -20,7 +20,7 @@ import static dev.langchain4j.store.embedding.filter.MetadataFilterBuilder.metad
 @Slf4j
 class _39_custom_ingestion extends AbstractDevoxxTest {
 
-    static final String COLLECTION_NAME = "quote";
+    static final String COLLECTION_NAME = "quote_prepopulated";
 
     @Test
     void shouldIngestDocuments() throws IOException {
@@ -58,6 +58,7 @@ class _39_custom_ingestion extends AbstractDevoxxTest {
 
 
     Document mapAsDocument(EmbeddingModel embeddingModel , Quote quote) {
+        System.out.println("quote = " + quote);
         return new Document(quote.rowId())
                 .append("content", quote.body())
                 .append("authors", quote.author())

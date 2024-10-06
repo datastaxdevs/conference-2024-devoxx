@@ -1,17 +1,15 @@
 package devoxx.rag.evaluation.relevance;
 
-import dev.langchain4j.data.embedding.Embedding;
-
 import java.util.Set;
 
 /**
  * Default matcher for the relevance.
  */
-public class ExactMatchRelevanceChecker implements RelevanceChecker {
+public class ExactMatchRelevanceChecker<T> implements RelevanceChecker<T> {
 
     /** {@inheritDoc} */
     @Override
-    public boolean isRelevant(Embedding retrievedDoc, Set<Embedding> groundTruth) {
+    public boolean isRelevant(T retrievedDoc, Set<T> groundTruth) {
         return groundTruth.contains(retrievedDoc);
     }
 

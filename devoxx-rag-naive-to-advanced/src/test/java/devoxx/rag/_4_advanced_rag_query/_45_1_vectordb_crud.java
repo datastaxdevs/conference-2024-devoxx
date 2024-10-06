@@ -18,14 +18,7 @@ import java.math.RoundingMode;
 
 public class _45_1_vectordb_crud extends AbstractDevoxxTest {
 
-    private static final String COLLECTION_NAME = "quote";
-
-    @Test
-    public void should_crud_with_collection() {
-        String question = "We struggle all our life for nothing";
-        Embedding questionEmbedding = getEmbeddingModel(MODEL_EMBEDDING_TEXT).embed(question).content();
-        AstraDbEmbeddingStore embeddingStore = new AstraDbEmbeddingStore(getCollection(COLLECTION_NAME));
-    }
+    private static final String COLLECTION_NAME = "quote_prepopulated";
 
     @Test
     public void should_search_with_metadata() {

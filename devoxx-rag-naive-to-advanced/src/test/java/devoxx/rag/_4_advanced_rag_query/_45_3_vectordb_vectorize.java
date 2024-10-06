@@ -30,43 +30,15 @@ public class _45_3_vectordb_vectorize extends AbstractDevoxxTest {
     private static final String COLLECTION_NAME = "quote";
 
     @Test
-    public void should_crud_with_collection() {
-        String question = "We struggle all our life for nothing";
-        Embedding questionEmbedding = getEmbeddingModel(MODEL_EMBEDDING_TEXT).embed(question).content();
-        AstraDbEmbeddingStore embeddingStore = new AstraDbEmbeddingStore(getCollection(COLLECTION_NAME));
-    }
-
-    @Test
-    public void should_search_with_metadata() {
-        String question = "We struggle all our life for nothing";
-        Embedding questionEmbedding = getEmbeddingModel(MODEL_EMBEDDING_TEXT).embed(question).content();
-        AstraDbEmbeddingStore embeddingStore = new AstraDbEmbeddingStore(new DataAPIClient(ASTRA_TOKEN,
-                DataAPIOptions.builder().withObserver(new LoggingCommandObserver(AbstractDevoxxTest.class)).build())
-                .getDatabase(ASTRA_API_ENDPOINT).getCollection(COLLECTION_NAME));
-
-        EmbeddingSearchRequest searchQuery = EmbeddingSearchRequest.builder()
-                .filter(new IsEqualTo("authors", "aristotle"))
-                .maxResults(10)
-                .minScore(0.1d)
-                .queryEmbedding(questionEmbedding)
-                .build();
-        EmbeddingSearchResult<TextSegment> aristotleResults = embeddingStore.search(searchQuery);
-
-        System.out.println(AnsiUtils.yellow("=========== ARISTOTLE ============"));
-        aristotleResults.matches().forEach(match -> {
-            System.out.println(AnsiUtils.cyan(BigDecimal.valueOf(match.score()).setScale(4, RoundingMode.HALF_UP).toString()) + " - " + match.embedded().text());
-        });
-    }
-
-    @Test
     public void should_vectorize() throws URISyntaxException {
         // Setup the store
         CollectionOptions collectionOptions = CollectionOptions
                 .builder()
                 .vectorSimilarity(SimilarityMetric.COSINE)
-                .defaultIdType(CollectionIdTypes.UUID)
-                .vectorize("nvidia","NV-Embed-QA").build();
-        Collection<Document> collection = new DataAPIClient(ASTRA_TOKEN)
+                .vectorize("nvidia","NV-Embed-QA")
+                .build();
+        Collection<Document> collection = new DataAPIClient(ASTRA_TOKEN,
+                DataAPIOptions.builder().withObserver(new LoggingCommandObserver(AbstractDevoxxTest.class)).build())
                 .getDatabase("https://3a2670a5-adbb-449e-b744-16d5182f5b70-us-east-2.apps.astra.datastax.com")
                 .createCollection("vectorize_test", collectionOptions);
         AstraDbEmbeddingStore embeddingStore = new AstraDbEmbeddingStore(collection);
@@ -87,7 +59,8 @@ public class _45_3_vectordb_vectorize extends AbstractDevoxxTest {
                 .queryVectorize("What is the Name of the HORSE ?")
                 .build();
         embeddingStore.search(searchQuery).matches()
-                .stream().map(match -> match.embedded().text())
+                .stream()
+                .map(match -> match.embedded().text())
                 .forEach(System.out::println);
     }
 

@@ -13,7 +13,7 @@ import java.util.NavigableMap;
 import java.util.Set;
 
 /**
- * Proposition for an implementation of MMR
+ * Proposition for an implementation of MRR
  */
 public class MeanReciprocalRank implements RankedResultsEvaluator {
 

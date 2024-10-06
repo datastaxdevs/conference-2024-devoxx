@@ -7,9 +7,9 @@ import devoxx.rag.similarity.Similarity;
 import java.util.Set;
 
 /**
- * Check for Similarity.
+ * Check for Similarity, we are working with embeddings directly
  */
-public class SimilarityBasedRelevanceChecker implements RelevanceChecker {
+public class EmbeddingSimilarityRelevanceChecker implements RelevanceChecker<Embedding> {
 
     static final double DEFAULT_THRESHOLD = .5d;
 
@@ -19,7 +19,7 @@ public class SimilarityBasedRelevanceChecker implements RelevanceChecker {
     /** threshold for similarity. */
     private final double similarityThreshold;
 
-    public SimilarityBasedRelevanceChecker() {
+    public EmbeddingSimilarityRelevanceChecker() {
         this(new CosineSimilarity(), DEFAULT_THRESHOLD);
     }
 
@@ -29,7 +29,7 @@ public class SimilarityBasedRelevanceChecker implements RelevanceChecker {
      * @param similarityThreshold
      *     similarity threshold
      */
-    public SimilarityBasedRelevanceChecker(Similarity similarity, double similarityThreshold) {
+    public EmbeddingSimilarityRelevanceChecker(Similarity similarity, double similarityThreshold) {
         this.similarityThreshold = similarityThreshold;
         this.similarity = similarity;
     }
