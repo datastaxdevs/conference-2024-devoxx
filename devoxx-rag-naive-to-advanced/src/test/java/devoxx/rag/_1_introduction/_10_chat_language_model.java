@@ -57,7 +57,7 @@ class _10_chat_language_model extends AbstractDevoxxTest {
     public static class PrettyPrintStreamingResponseHandler
             implements StreamingResponseHandler<AiMessage> {
         @Override
-        public void onNext(String s) { System.out.println(s); }
+        public void onNext(String s) { System.out.print(s); }
         @Override
         public void onComplete(Response<AiMessage> response) {  prettyPrint(response);}
         @Override
