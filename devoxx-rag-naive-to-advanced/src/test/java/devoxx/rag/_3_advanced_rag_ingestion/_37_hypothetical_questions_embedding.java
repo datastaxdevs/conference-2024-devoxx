@@ -41,11 +41,11 @@ public class _37_hypothetical_questions_embedding extends AbstractDevoxxTest {
     private static final String COLLECTION_NAME = "berlin_hypothetical_questions";
     private static final Database DATABASE = new DataAPIClient(ASTRA_TOKEN).getDatabase(ASTRA_API_ENDPOINT);
 
-    private boolean collectionExists() {
+    private static boolean collectionExists() {
         return DATABASE.collectionExists(COLLECTION_NAME);
     }
 
-    private EmbeddingStore<TextSegment> getEmbeddingStore() {
+    public static EmbeddingStore<TextSegment> getEmbeddingStore() {
         if (collectionExists()) {
             System.out.println(cyan("Collection already exists."));
             return new AstraDbEmbeddingStore(DATABASE.getCollection(COLLECTION_NAME));
@@ -183,7 +183,7 @@ public class _37_hypothetical_questions_embedding extends AbstractDevoxxTest {
             "extracts", concatenatedExtracts
         )).toUserMessage();
 
-        System.out.println(magenta("\nMODEL REQUEST:\n") + userMessage.text().replaceAll("\\n", "\n") + "\n");
+        System.out.println(magenta("\nMODEL REQUEST:\n") + userMessage.singleText().replaceAll("\\n", "\n") + "\n");
 
         Response<AiMessage> response = chatModel.generate(userMessage);
 

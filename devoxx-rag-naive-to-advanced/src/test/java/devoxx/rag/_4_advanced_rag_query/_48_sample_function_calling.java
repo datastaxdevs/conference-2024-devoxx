@@ -17,7 +17,7 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 
-public class _71_sample_function_calling extends AbstractDevoxxTest {
+public class _48_sample_function_calling extends AbstractDevoxxTest {
 
     static class Calculator {
         @Tool("Adds two given numbers")

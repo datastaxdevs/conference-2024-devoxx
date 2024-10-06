@@ -1,5 +1,6 @@
 package devoxx.rag.evaluation.ndcg;
 
+import dev.langchain4j.data.embedding.Embedding;
 import devoxx.rag.evaluation.RankedResults;
 import devoxx.rag.evaluation.RankedResultsEvaluator;
 
@@ -8,10 +9,8 @@ import java.util.*;
 /**
  * Evaluator for computing Normalized Discounted Cumulative Gain (NDCG).
  *
- * @param <T>
- *      The type of the items in the ranked results.
  */
-public class NormalizedDiscountedCumulativeGain<T> implements RankedResultsEvaluator<T> {
+public class NormalizedDiscountedCumulativeGain implements RankedResultsEvaluator {
 
     /**
      * Computes the NDCG@K for a list of queries.
@@ -23,12 +22,12 @@ public class NormalizedDiscountedCumulativeGain<T> implements RankedResultsEvalu
      * @return The NDCG value.
      */
     @Override
-    public double eval(List<RankedResults<T>> queriesResults, int cutoffRank) {
+    public double eval(List<RankedResults> queriesResults, int cutoffRank) {
         double sumNDCG = 0.0;
         int validQueryCount = 0;
 
-        for (RankedResults<T> rankedResult : queriesResults) {
-            Map<T, Integer> relevanceGrades = rankedResult.getRelevanceGrades();
+        for (RankedResults rankedResult : queriesResults) {
+            Map<Embedding, Integer> relevanceGrades = rankedResult.getRelevanceGrades();
 
             if (relevanceGrades == null || relevanceGrades.isEmpty()) {
                 // No relevance grades for this query, skip it
@@ -51,14 +50,14 @@ public class NormalizedDiscountedCumulativeGain<T> implements RankedResultsEvalu
         return validQueryCount > 0 ? sumNDCG / validQueryCount : 0.0;
     }
 
-    private double computeDCG(NavigableMap<Double, List<T>> results, Map<T, Integer> relevanceGrades, int cutoffRank) {
+    private double computeDCG(NavigableMap<Double, List<Embedding>> results, Map<Embedding, Integer> relevanceGrades, int cutoffRank) {
         double dcg = 0.0;
         int rank = 1;
 
-        for (Map.Entry<Double, List<T>> entry : results.entrySet()) {
-            List<T> docsAtScore = entry.getValue();
+        for (Map.Entry<Double, List<Embedding>> entry : results.entrySet()) {
+            List<Embedding> docsAtScore = entry.getValue();
 
-            for (T doc : docsAtScore) {
+            for (Embedding doc : docsAtScore) {
                 if (rank > cutoffRank) {
                     break;
                 }
@@ -75,7 +74,7 @@ public class NormalizedDiscountedCumulativeGain<T> implements RankedResultsEvalu
         return dcg;
     }
 
-    private double computeIDCG(Map<T, Integer> relevanceGrades, int cutoffRank) {
+    private double computeIDCG(Map<Embedding, Integer> relevanceGrades, int cutoffRank) {
         // Sort the relevance grades in descending order
         List<Integer> sortedGrades = new ArrayList<>(relevanceGrades.values());
         sortedGrades.sort(Collections.reverseOrder());

@@ -23,7 +23,7 @@ public class _50_evaluation_mrr extends AbstractDevoxxTest {
 
     @Test
     public void should_explain_mrr() {
-        
+
 //        RankedResults<String> rankedResults = new RankedResults<>();
 //        // Question
 //        rankedResults.setQuery("What is the capital of France?");
