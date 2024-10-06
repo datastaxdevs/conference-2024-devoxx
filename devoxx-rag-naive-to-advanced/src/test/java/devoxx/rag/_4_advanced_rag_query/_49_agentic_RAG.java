@@ -112,12 +112,17 @@ public class _49_agentic_RAG extends AbstractDevoxxTest {
 
             TopicAssistant topicAssistant = AiServices.builder(TopicAssistant.class)
                 .chatLanguageModel(getChatLanguageModel(MODEL_GEMINI_PRO))
-                .contentRetriever(EmbeddingStoreContentRetriever.from(EMBEDDING_STORE))
+                // Be careful no embedding MODEL so the STRING was sent to the DB
+                //.contentRetriever(EmbeddingStoreContentRetriever
+                //        .from(EMBEDDING_STORE))
+                .contentRetriever(EmbeddingStoreContentRetriever.builder()
+                .embeddingStore(EMBEDDING_STORE)
+                .embeddingModel(getEmbeddingModel(MODEL_EMBEDDING_TEXT)).build())
                 .build();
 
             Result<String> reportResult = topicAssistant.report(query);
 
-            System.out.println(yellow("-> Topic eport: ") + reportResult.content().replaceAll("\\n", "\n"));
+            System.out.println(yellow("-> Topic report: ") + reportResult.content().replaceAll("\\n", "\n"));
 
             return new TopicReport(query, reportResult.content());
         }
