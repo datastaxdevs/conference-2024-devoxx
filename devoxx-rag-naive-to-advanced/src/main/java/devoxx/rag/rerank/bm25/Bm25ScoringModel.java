@@ -1,4 +1,4 @@
-package devoxx.rag.bm25;
+package devoxx.rag.rerank.bm25;
 
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.output.Response;

@@ -8,8 +8,8 @@ import dev.langchain4j.store.embedding.EmbeddingMatch;
 import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import devoxx.rag.AbstractDevoxxTest;
-import devoxx.rag.bm25.Bm25ScoringModel;
-import devoxx.rag.bm25.Language;
+import devoxx.rag.rerank.bm25.Bm25ScoringModel;
+import devoxx.rag.rerank.bm25.Language;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

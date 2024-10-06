@@ -7,7 +7,7 @@ import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.store.embedding.EmbeddingMatch;
 import devoxx.rag.AbstractDevoxxTest;
-import devoxx.rag.rrf.ReciprocalRankFusion;
+import devoxx.rag.rerank.rrf.ReciprocalRankFusion;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

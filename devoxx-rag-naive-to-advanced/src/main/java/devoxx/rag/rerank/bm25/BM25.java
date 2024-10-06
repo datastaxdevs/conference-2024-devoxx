@@ -1,8 +1,8 @@
-package devoxx.rag.bm25;
+package devoxx.rag.rerank.bm25;
 
-import devoxx.rag.bm25.stemmer.Stemmer;
-import devoxx.rag.bm25.stemmer.StemmerSnowBall;
-import devoxx.rag.bm25.stopwords.StopWords;
+import devoxx.rag.rerank.bm25.stemmer.Stemmer;
+import devoxx.rag.rerank.bm25.stemmer.StemmerSnowBall;
+import devoxx.rag.rerank.bm25.stopwords.StopWords;
 
 import java.util.*;
 import java.util.function.Function;

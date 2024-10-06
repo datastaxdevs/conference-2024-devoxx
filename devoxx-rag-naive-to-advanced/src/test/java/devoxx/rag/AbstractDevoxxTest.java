@@ -121,7 +121,7 @@ public abstract class AbstractDevoxxTest {
     //               RAG STUFF
     // ------------------------------------------------------------
 
-    private static void ingestDocument(String docName, EmbeddingModel model, EmbeddingStore<TextSegment> store) {
+    protected void ingestDocument(String docName, EmbeddingModel model, EmbeddingStore<TextSegment> store) {
         Path path = new File(Objects.requireNonNull(AbstractDevoxxTest.class
                 .getResource("/" + docName)).getFile()).toPath();
         dev.langchain4j.data.document.Document document = FileSystemDocumentLoader

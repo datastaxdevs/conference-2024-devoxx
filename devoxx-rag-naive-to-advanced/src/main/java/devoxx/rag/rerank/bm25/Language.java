@@ -1,4 +1,4 @@
-package devoxx.rag.bm25;
+package devoxx.rag.rerank.bm25;
 
 /**
  * Language enum

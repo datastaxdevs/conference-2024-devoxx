@@ -18,7 +18,7 @@ import java.util.List;
 import static dev.langchain4j.store.embedding.filter.MetadataFilterBuilder.metadataKey;
 
 @Slf4j
-class _36_custom_loader extends AbstractDevoxxTest {
+class _39_custom_ingestion extends AbstractDevoxxTest {
 
     static final String COLLECTION_NAME = "quote";
 

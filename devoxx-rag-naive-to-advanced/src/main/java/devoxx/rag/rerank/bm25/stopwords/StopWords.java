@@ -1,13 +1,12 @@
-package devoxx.rag.bm25.stopwords;
+package devoxx.rag.rerank.bm25.stopwords;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import devoxx.rag.bm25.Language;
+import devoxx.rag.rerank.bm25.Language;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 /**
  * Extract the Stop words from the iso file.

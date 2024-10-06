@@ -1,4 +1,4 @@
-package devoxx.rag.rrf;
+package devoxx.rag.rerank.rrf;
 
 import dev.langchain4j.data.segment.TextSegment;
 

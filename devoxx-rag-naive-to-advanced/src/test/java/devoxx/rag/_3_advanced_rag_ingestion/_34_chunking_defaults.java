@@ -16,7 +16,7 @@ import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
 /**
  * CHUNKING DOCUMENTS
  */
-public class _34_default_splitters extends AbstractDevoxxTest {
+public class _34_chunking_defaults extends AbstractDevoxxTest {
 
     @Test
     public void should_chunk_document_recursive() {

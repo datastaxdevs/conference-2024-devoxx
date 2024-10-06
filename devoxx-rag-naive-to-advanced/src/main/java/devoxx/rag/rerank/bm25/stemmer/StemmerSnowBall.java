@@ -1,6 +1,6 @@
-package devoxx.rag.bm25.stemmer;
+package devoxx.rag.rerank.bm25.stemmer;
 
-import devoxx.rag.bm25.Language;
+import devoxx.rag.rerank.bm25.Language;
 import org.tartarus.snowball.SnowballStemmer;
 import org.tartarus.snowball.ext.danishStemmer;
 import org.tartarus.snowball.ext.dutchStemmer;

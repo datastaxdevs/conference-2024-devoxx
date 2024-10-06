@@ -2,79 +2,46 @@ package devoxx.rag._3_advanced_rag_ingestion;
 
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.model.embedding.onnx.allminilml6v2q.AllMiniLmL6V2QuantizedEmbeddingModel;
-import dev.langchain4j.model.output.Response;
-import dev.langchain4j.store.embedding.CosineSimilarity;
 import devoxx.rag.AbstractDevoxxTest;
+import devoxx.rag.similarity.CosineSimilarity;
+import devoxx.rag.similarity.DotProductSimilarity;
+import devoxx.rag.similarity.EuclideanSimilarity;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
+import static com.dtsx.astra.sdk.utils.observability.AnsiUtils.yellow;
 
 public class _32_vectors_similarity extends AbstractDevoxxTest {
 
-    /**
-     * Euclidean
-     */
-    public static double euclideanDistance(List<Float> vector1, List<Float> vector2) {
-        double sum = 0.0;
-        for (int i = 0; i < vector1.size(); i++) {
-            sum += Math.pow(vector1.get(i) - vector2.get(i), 2);
-        }
-        return Math.sqrt(sum);
-    }
-
-    /**
-     * DotProduct
-     */
-    public static double dotProductSimilarity(List<Float> vector1, List<Float> vector2) {
-        double dotProduct = 0.0;
-        for (int i = 0; i < vector1.size(); i++) {
-            dotProduct += vector1.get(i) * vector2.get(i);
-        }
-        return dotProduct;
-    }
-
     @Test
     public void should_show_different_similarities() {
-        // Not multilingual
+
         var embeddingModel = new AllMiniLmL6V2QuantizedEmbeddingModel();
-        Response<Embedding> embeddingOne = embeddingModel.embed("baby dog");
-        Response<Embedding> embeddingTwo = embeddingModel.embed("puppy");
+        Embedding one = embeddingModel.embed("baby dog").content();
+        Embedding two = embeddingModel.embed("puppy").content();
 
         // Cosine Similarity
-        System.out.println(cyan("    Cosine Similarity: ") +
-                CosineSimilarity.between(embeddingOne.content(), embeddingTwo.content()));
+        System.out.println(yellow("AllMiniLmL6V2"));
+        System.out.println(cyan("     Cosine Similarity: ")
+                + new CosineSimilarity().compute(one, two));
+        System.out.println(cyan("  Euclidean Similarity: ")
+                + new EuclideanSimilarity().compute(one, two));
+        System.out.println(cyan(" DotProduct Similarity: ")
+                + new DotProductSimilarity().compute(one, two));
 
-        System.out.println(cyan(" Euclidean Similarity: ") +
-                euclideanDistance(embeddingOne.content().vectorAsList(),
-                        embeddingTwo.content().vectorAsList()));
-
-        System.out.println(cyan("DotProduct Similarity: ") +
-                dotProductSimilarity(embeddingOne.content().vectorAsList(),
-                        embeddingTwo.content().vectorAsList()));
-    }
-
-
-    @Test
-    public void should_show_multilingual() {
         // Not multilingual
-        var embeddingModel = getEmbeddingModel(MODEL_EMBEDDING_MULTILINGUAL);
-        Response<Embedding> embeddingOne = embeddingModel.embed("baby dog");
-        Response<Embedding> embeddingTwo = embeddingModel.embed("puppy");
+        var embeddingModel2 = getEmbeddingModel(MODEL_EMBEDDING_MULTILINGUAL);
+        Embedding three = embeddingModel2.embed("baby dog").content();
+        Embedding four = embeddingModel2.embed("puppy").content();
 
         // Cosine Similarity
-        System.out.println(cyan("    Cosine Similarity: ") +
-                CosineSimilarity.between(embeddingOne.content(), embeddingTwo.content()));
-
-        System.out.println(cyan(" Euclidean Similarity: ") +
-                euclideanDistance(embeddingOne.content().vectorAsList(),
-                        embeddingTwo.content().vectorAsList()));
-
-        System.out.println(cyan("DotProduct Similarity: ") +
-                dotProductSimilarity(embeddingOne.content().vectorAsList(),
-                        embeddingTwo.content().vectorAsList()));
+        System.out.println(yellow("\nVertexAI " + MODEL_EMBEDDING_MULTILINGUAL));
+        System.out.println(cyan("     Cosine Similarity: ")
+                + new CosineSimilarity().compute(three, four));
+        System.out.println(cyan("  Euclidean Similarity: ")
+                + new EuclideanSimilarity().compute(three, four));
+        System.out.println(cyan(" DotProduct Similarity: ")
+                + new DotProductSimilarity().compute(three, four));
     }
-
 
 }
