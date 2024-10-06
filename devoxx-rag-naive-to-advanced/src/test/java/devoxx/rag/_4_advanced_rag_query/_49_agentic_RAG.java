@@ -1,8 +1,6 @@
 package devoxx.rag._4_advanced_rag_query;
 
 import dev.langchain4j.agent.tool.Tool;
-import dev.langchain4j.model.embedding.EmbeddingModel;
-import dev.langchain4j.model.vertexai.VertexAiEmbeddingModel;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.Result;
@@ -74,7 +72,6 @@ public class _49_agentic_RAG extends AbstractDevoxxTest {
             reportResult.sources().forEach(content -> {
                 System.out.println(cyan("- Source: ") + content.textSegment().text());
             });
-
             System.out.println(yellow("\n-> Topic report: ") + reportResult.content().replaceAll("\\n", "\n"));
 
             return new TopicReport(query, reportResult.content());
