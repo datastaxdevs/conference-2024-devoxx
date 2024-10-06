@@ -27,15 +27,15 @@ public class _50_evaluation_mrr extends AbstractDevoxxTest {
           MeanReciprocalRank<String> mmr15 = new MeanReciprocalRank<>();
           // Question
           RankedResults<String> rankedResults = new RankedResults<>("What is the capital of France?");
-          // Target responses (Also expressed as Strings)
+          // Target responses (expressed as Strings)
           rankedResults.addExpectedAnswers("Paris is the capital of France.");
           rankedResults.addExpectedAnswers("France's capital city is Paris.");
-          // Results from query
+          // Results from query (scope, resul)
           rankedResults.addResult(0.9, "Paris is the capital of France.");
           rankedResults.addResult(0.85, "The capital of Germany is Berlin.");
           rankedResults.addResult(0.7, "Madrid is the capital of Spain.");
           rankedResults.addResult(0.6, "France is a country in Europe.");
-          // The default RELEVANCE FUNCTION IS EXACT MATCHING.
+          // Default RELEVANCE FUNCTION IS EXACT MATCHING.
           // As one of the results is an exact match, the MRR will be 1.0 for this rank.
           double mrr = new MeanReciprocalRank<String>().eval(List.of(rankedResults));
           System.out.println(yellow("===== MRR@15 ===== "));
@@ -46,7 +46,7 @@ public class _50_evaluation_mrr extends AbstractDevoxxTest {
 
     @Test
     public void should_explain_mrr_embeddings() {
-        // We are working with STRING
+        // We are now working with EMBEDDINGS
         EmbeddingSimilarityRelevanceChecker relevance = new EmbeddingSimilarityRelevanceChecker(
                 new CosineSimilarity(), 0.89);
         MeanReciprocalRank<Embedding> mmr15 = new MeanReciprocalRank<>(relevance, 15);
@@ -56,18 +56,17 @@ public class _50_evaluation_mrr extends AbstractDevoxxTest {
         // Target responses (Also expressed as Embeddings now)
         rankedResults.addExpectedAnswers(embed("Paris is the capital of France."));
         rankedResults.addExpectedAnswers(embed("France's capital city is Paris."));
-        // Results from query
+        // Results from query (similarity, embedding))
         rankedResults.addResult(0.9, embed("Paris is the capital of France."));
         rankedResults.addResult(0.85, embed("The capital of Germany is Berlin."));
         rankedResults.addResult(0.7, embed("Madrid is the capital of Spain."));
         rankedResults.addResult(0.6, embed("France is a country in Europe."));
+
         // The default RELEVANCE FUNCTION IS EXACT MATCHING.
-        // As one of the results is an exact match, the MRR will be 1.0 for this rank.
-        double mrr = mmr15.eval(rankedResults);
         System.out.println(yellow("===== MRR@15 ===== "));
         System.out.println(cyan("     Used Objects : ") + "Embedding");
         System.out.println(cyan("Relevance Checker : ") + mmr15.getRelevanceChecker().getClass().getSimpleName());
-        System.out.println(cyan("           Score  : ") + mrr);
+        System.out.println(cyan("           Score  : ") + mmr15.eval(List.of(rankedResults)));
     }
 
     Embedding embed(String text) {
