@@ -1,6 +1,5 @@
 package devoxx.rag.evaluation;
 
-import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.store.embedding.EmbeddingMatch;
 import lombok.Data;
 
@@ -16,46 +15,44 @@ import java.util.TreeMap;
 @Data
 public class RankedResults<T> {
 
-    String query;
+    private String query;
 
-    TreeMap<Double, List<Embedding>> results;
+    private TreeMap<Double, List<T>> matches;
 
-    List<EmbeddingMatch<T>> matches;
-    Set<T> expectedMatches;
+    private Set<T> expectedAnswers;
 
-    Set<Embedding> groundTruth;
-
-    private Map<Embedding, Integer> relevanceGrades;
+    private Map<T, Integer> relevanceGrades;
 
     public RankedResults() {
-        this.results = new TreeMap<>(Collections.reverseOrder()); // To sort scores in descending order
-        this.groundTruth = new HashSet<>();
+        this.matches = new TreeMap<>(Collections.reverseOrder()); // To sort scores in descending order
+        this.expectedAnswers = new HashSet<>();
         this.relevanceGrades = new HashMap<>();
     }
 
     public RankedResults(String query) {
         this.query = query;
-        this.results = new TreeMap<>(Collections.reverseOrder()); // To sort scores in descending order
-        this.groundTruth = new HashSet<>();
+        this.matches = new TreeMap<>(Collections.reverseOrder()); // To sort scores in descending order
+        this.expectedAnswers = new HashSet<>();
         this.relevanceGrades = new HashMap<>();
     }
 
-    public void addResults(List<EmbeddingMatch<?>> matches) {
+    // tentative
+    public void addResults(List<EmbeddingMatch<T>> matches) {
         if (matches == null) {
             return;
         }
-        matches.forEach(match -> addResult(match.score(), match.embedding()));
+        matches.forEach(match -> addResult(match.score(), match.embedded()));
     }
 
-    public void addResult(double score, Embedding doc) {
-        results.computeIfAbsent(score, k -> new ArrayList<>()).add(doc);
+    public void addResult(double score, T doc) {
+        matches.computeIfAbsent(score, k -> new ArrayList<>()).add(doc);
     }
 
-    public void addGroundTruth(Embedding doc) {
-        groundTruth.add(doc);
+    public void addExpectedAnswers(T doc) {
+        expectedAnswers.add(doc);
     }
 
-    public void addRelevanceGrade(Embedding doc, int grade) {
+    public void addRelevanceGrade(T doc, int grade) {
         relevanceGrades.put(doc, grade);
     }
 }

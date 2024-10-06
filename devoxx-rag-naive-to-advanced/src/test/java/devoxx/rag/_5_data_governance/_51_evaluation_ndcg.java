@@ -1,7 +1,6 @@
 package devoxx.rag._5_data_governance;
 
 import devoxx.rag.evaluation.RankedResults;
-import devoxx.rag.evaluation.mrr.MeanReciprocalRank;
 import devoxx.rag.evaluation.ndcg.NormalizedDiscountedCumulativeGain;
 import org.junit.jupiter.api.Test;
 
@@ -9,11 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
+import static com.datastax.astra.internal.utils.AnsiUtils.yellow;
+
 public class _51_evaluation_ndcg {
 
     @Test
     public void should_explain_ndcg() {
-        /* Instantiate the evaluator
+        // Instantiate the evaluator
         NormalizedDiscountedCumulativeGain<String> evaluator = new NormalizedDiscountedCumulativeGain<>();
 
         // Prepare the list of ranked results
@@ -41,14 +43,16 @@ public class _51_evaluation_ndcg {
         int cutoffRank = 3;
 
         // Compute NDCG@K
-        double ndcg = evaluator.eval(queriesResults, cutoffRank);
-
-        System.out.println("NDCG@" + cutoffRank + ": " + ndcg);
+        System.out.println(yellow("\n===== NDCG@15 (static) ===== "));
+        System.out.println(cyan("     Used Objects : ") + "String");
+        System.out.println(cyan("Relevance Checker : ") + evaluator.getRelevanceChecker().getClass().getSimpleName());
+        System.out.println(cyan("      Cutoff Rank : ") + cutoffRank);
+        System.out.println(cyan("            Score : ") + evaluator.eval(queriesResults, cutoffRank));
 
         // Printing the ranked segments
-        System.out.println("\nRanked Segments:");
+        System.out.println(yellow("\nRanked Segments:"));
         int rank = 1;
-        for (Map.Entry<Double, List<String>> entry : rankedResults.getResults().descendingMap().entrySet()) {
+        for (Map.Entry<Double, List<String>> entry : rankedResults.getMatches().descendingMap().entrySet()) {
             List<String> docs = entry.getValue();
             for (String doc : docs) {
                 if (rank > cutoffRank) {
@@ -61,6 +65,6 @@ public class _51_evaluation_ndcg {
             if (rank > cutoffRank) {
                 break;
             }
-        }*/
+        }
     }
 }

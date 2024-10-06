@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Interface for evaluating ranked results.
  */
-public interface RankedResultsEvaluator {
+public interface RankedResultsEvaluator<T> {
 
     /**
      * Computes metrics to evaluate the performance of a model.
@@ -16,6 +16,6 @@ public interface RankedResultsEvaluator {
      *      The maximum rank to consider (e.g., 15 for MRR@15).
      * @return The metric value.
      */
-    double eval(List<RankedResults> queriesResults, int cutoffRank);
+    double eval(List<RankedResults<T>> queriesResults, int cutoffRank);
 
 }

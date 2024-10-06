@@ -1,10 +1,10 @@
 package devoxx.rag.evaluation.mrr;
 
-import dev.langchain4j.data.embedding.Embedding;
 import devoxx.rag.evaluation.RankedResults;
 import devoxx.rag.evaluation.RankedResultsEvaluator;
 import devoxx.rag.evaluation.relevance.ExactMatchRelevanceChecker;
 import devoxx.rag.evaluation.relevance.RelevanceChecker;
+import lombok.Data;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,64 +15,59 @@ import java.util.Set;
 /**
  * Proposition for an implementation of MRR
  */
-public class MeanReciprocalRank implements RankedResultsEvaluator {
+@Data
+public class MeanReciprocalRank<T> implements RankedResultsEvaluator<T> {
 
     private static final int DEFAULT_CUTOFF_RANK = 15;
 
     private final int cutOffRank;
 
-    /** Default relevant checker. */
-    private static final RelevanceChecker DEFAULT_RELEVANCE_CHECKER =
-            new ExactMatchRelevanceChecker();
-
-    private final RelevanceChecker relevanceChecker;
+    /** Needed to evaluate the relevance of the retrieved documents. */
+    private final RelevanceChecker<T> relevanceChecker;
 
     public MeanReciprocalRank() {
-        this(DEFAULT_RELEVANCE_CHECKER, DEFAULT_CUTOFF_RANK);
+        this( new ExactMatchRelevanceChecker<T>(), DEFAULT_CUTOFF_RANK);
     }
 
-    public MeanReciprocalRank(RelevanceChecker relevanceChecker, int cutOffRank) {
+    public MeanReciprocalRank(RelevanceChecker<T> relevanceChecker, int cutOffRank) {
         this.cutOffRank = cutOffRank;
         this.relevanceChecker = relevanceChecker;
     }
 
     /** {@inheritDoc} */
-    public double eval(RankedResults... queriesResults) {
+    public double eval(RankedResults<T>... queriesResults) {
         return eval(Arrays.asList(queriesResults), this.cutOffRank);
     }
 
     /** {@inheritDoc} */
-    public double eval(List<RankedResults> queriesResults) {
+    public double eval(List<RankedResults<T>> queriesResults) {
         return eval(queriesResults,  this.cutOffRank);
     }
 
     /** {@inheritDoc} */
     @Override
-    public double eval(List<RankedResults> queriesResults, int cutoffRank) {
-        System.out.println(queriesResults.get(0).getResults().size());
-
+    public double eval(List<RankedResults<T>> queriesResults, int cutoffRank) {
         double sumReciprocalRanks = 0.0;
         int validQueryCount = 0;
 
-        for (RankedResults rankedResult : queriesResults) {
-            Set<Embedding> relevantDocs = rankedResult.getGroundTruth();
-
+        for (RankedResults<T> rankedResult : queriesResults) {
+            Set<T> relevantDocs = rankedResult.getExpectedAnswers();
             if (relevantDocs == null || relevantDocs.isEmpty()) {
                 // No ground truth for this query, skip it
                 continue;
             }
 
             validQueryCount++;
-            NavigableMap<Double, List<Embedding>> descendingResults = rankedResult.getResults().descendingMap();
+            NavigableMap<Double, List<T>> descendingResults = rankedResult.getMatches().descendingMap();
 
             int rank = 1;
             boolean found = false;
 
             outerLoop:
-            for (Map.Entry<Double, List<Embedding>> entry : descendingResults.entrySet()) {
-                List<Embedding> docsAtScore = entry.getValue();
+            for (Map.Entry<Double, List<T>> entry : descendingResults.entrySet()) {
+                List<T> docsAtScore = entry.getValue();
 
-                for (Embedding doc : docsAtScore) {
+                for (T doc : docsAtScore) {
                     if (relevanceChecker.isRelevant(doc, relevantDocs)) {
                         // Found the first relevant document
                         sumReciprocalRanks += 1.0 / rank;

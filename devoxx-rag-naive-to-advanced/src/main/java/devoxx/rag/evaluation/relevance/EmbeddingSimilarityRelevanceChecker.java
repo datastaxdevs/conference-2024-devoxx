@@ -19,6 +19,9 @@ public class EmbeddingSimilarityRelevanceChecker implements RelevanceChecker<Emb
     /** threshold for similarity. */
     private final double similarityThreshold;
 
+    /**
+     * Constructor for SimilarityBasedRelevanceChecker.
+     */
     public EmbeddingSimilarityRelevanceChecker() {
         this(new CosineSimilarity(), DEFAULT_THRESHOLD);
     }
