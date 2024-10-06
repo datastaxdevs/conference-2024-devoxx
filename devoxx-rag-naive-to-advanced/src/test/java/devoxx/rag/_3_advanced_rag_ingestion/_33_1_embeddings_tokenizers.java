@@ -69,7 +69,6 @@ public class _33_1_embeddings_tokenizers {
 
         // Pooling
 
-
     }
 
     /**
@@ -112,9 +111,6 @@ public class _33_1_embeddings_tokenizers {
                 System.out.format("[%s]%n", token);
             }
             System.out.println("Token count: " + tokens.size());
-
-
-
 
             assertThat(tokens.size()).isEqualTo(61);
         }
