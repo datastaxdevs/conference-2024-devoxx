@@ -17,6 +17,7 @@ class _10_chat_language_model extends AbstractDevoxxTest {
     @Test
     public void should_chat_language_model() {
         System.out.println(yellow("Using Chat Model:"));
+
         ChatLanguageModel chatModel = VertexAiGeminiChatModel.builder()
                 .project(System.getenv("GCP_PROJECT_ID"))
                 .location(System.getenv("GCP_LOCATION"))

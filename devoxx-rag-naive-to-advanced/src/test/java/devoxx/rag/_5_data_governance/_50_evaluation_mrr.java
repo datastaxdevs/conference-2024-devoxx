@@ -10,7 +10,6 @@ import devoxx.rag.evaluation.RankedResults;
 import devoxx.rag.evaluation.mrr.MeanReciprocalRank;
 import devoxx.rag.evaluation.relevance.EmbeddingSimilarityRelevanceChecker;
 import devoxx.rag.similarity.CosineSimilarity;
-import devoxx.rag.similarity.EuclideanSimilarity;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
