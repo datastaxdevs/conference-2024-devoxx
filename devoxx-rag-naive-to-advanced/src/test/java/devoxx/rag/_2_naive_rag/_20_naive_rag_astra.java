@@ -34,7 +34,7 @@ import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
 import static com.datastax.astra.internal.utils.AnsiUtils.yellow;
 import static java.util.stream.Collectors.joining;
 
-public class _20_naive_rag_astra extends AbstractDevoxxTest {
+    public class _20_naive_rag_astra extends AbstractDevoxxTest {
 
     static final String COLLECTION_NAME = "naive_rag";
 

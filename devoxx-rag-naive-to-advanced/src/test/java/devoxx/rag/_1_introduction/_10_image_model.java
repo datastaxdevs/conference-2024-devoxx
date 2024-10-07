@@ -19,13 +19,13 @@ public class _10_image_model {
                 .location(System.getenv("GCP_LOCATION"))
                 .endpoint(System.getenv("GCP_VERTEXAI_ENDPOINT"))
                 .publisher("google")
-                .modelName("imagegeneration@005")
+                .modelName("imagen-3.0-generate-001")
                 .maxRetries(2)
                 .withPersisting()
                 .build();
 
         Response<List<Image>> imageListResponse = imagenModel
-                .generate("photo of a sunset over Malibu beach", 3);
+                .generate("Photo of a sunset over Malibu beach", 3);
         imageListResponse.content().forEach(img -> {
             assertThat(img.url()).isNotNull();
             assertThat(img.base64Data()).isNotNull();
