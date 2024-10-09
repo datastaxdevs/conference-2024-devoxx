@@ -2,10 +2,8 @@ package devoxx.rag;
 
 import com.datastax.astra.client.Collection;
 import com.datastax.astra.client.DataAPIClient;
-import com.datastax.astra.client.DataAPIOptions;
 import com.datastax.astra.client.Database;
 import com.datastax.astra.client.model.Document;
-import com.datastax.astra.internal.command.LoggingCommandObserver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.langchain4j.data.document.DocumentSplitter;
 import dev.langchain4j.data.document.loader.FileSystemDocumentLoader;
@@ -18,7 +16,12 @@ import dev.langchain4j.model.chat.StreamingChatLanguageModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.model.output.Response;
 import dev.langchain4j.model.scoring.ScoringModel;
-import dev.langchain4j.model.vertexai.*;
+import dev.langchain4j.model.vertexai.HarmCategory;
+import dev.langchain4j.model.vertexai.SafetyThreshold;
+import dev.langchain4j.model.vertexai.VertexAiEmbeddingModel;
+import dev.langchain4j.model.vertexai.VertexAiGeminiChatModel;
+import dev.langchain4j.model.vertexai.VertexAiGeminiStreamingChatModel;
+import dev.langchain4j.model.vertexai.VertexAiScoringModel;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.store.embedding.EmbeddingStore;
@@ -101,8 +104,8 @@ public abstract class AbstractDevoxxTest {
     //                ASTRA / CASSANDRA STORE STUFF
     // ------------------------------------------------------------
 
-    public static final String ASTRA_TOKEN           = System.getenv("ASTRA_TOKEN_DEVOXX");
-    public static final String ASTRA_API_ENDPOINT    = "https://57fe123e-8f47-4165-babc-0df44136e3fb-us-east1.apps.astra.datastax.com";
+    public static final String ASTRA_TOKEN        = System.getenv("ASTRA_TOKEN_DEVOXX");
+    public static final String ASTRA_API_ENDPOINT = "https://57fe123e-8f47-4165-babc-0df44136e3fb-us-east1.apps.astra.datastax.com";
 
     public Database getAstraDatabase() {
         // verbose

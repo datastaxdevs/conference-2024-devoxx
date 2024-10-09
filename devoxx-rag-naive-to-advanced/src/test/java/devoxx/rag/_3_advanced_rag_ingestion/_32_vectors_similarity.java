@@ -18,7 +18,7 @@ public class _32_vectors_similarity extends AbstractDevoxxTest {
 
         var embeddingModel = new AllMiniLmL6V2QuantizedEmbeddingModel();
         Embedding one = embeddingModel.embed("baby dog").content();
-        Embedding two = embeddingModel.embed("puppy").content();
+        Embedding two = embeddingModel.embed("jeune chien").content();
 
         // Cosine Similarity
         System.out.println(yellow("AllMiniLmL6V2"));
@@ -32,7 +32,7 @@ public class _32_vectors_similarity extends AbstractDevoxxTest {
         // Not multilingual
         var embeddingModel2 = getEmbeddingModel(MODEL_EMBEDDING_MULTILINGUAL);
         Embedding three = embeddingModel2.embed("baby dog").content();
-        Embedding four = embeddingModel2.embed("puppy").content();
+        Embedding four = embeddingModel2.embed("jeune chien").content();
 
         // Cosine Similarity
         System.out.println(yellow("\nVertexAI " + MODEL_EMBEDDING_MULTILINGUAL));
