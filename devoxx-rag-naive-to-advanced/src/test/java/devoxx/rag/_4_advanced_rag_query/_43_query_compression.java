@@ -1,18 +1,14 @@
 package devoxx.rag._4_advanced_rag_query;
 
-import dev.langchain4j.data.message.AiMessage;
-import dev.langchain4j.data.message.SystemMessage;
-import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import dev.langchain4j.model.output.Response;
+import dev.langchain4j.model.input.PromptTemplate;
 import dev.langchain4j.rag.DefaultRetrievalAugmentor;
 import dev.langchain4j.rag.RetrievalAugmentor;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
+import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.rag.content.retriever.WebSearchContentRetriever;
-import dev.langchain4j.rag.query.router.DefaultQueryRouter;
 import dev.langchain4j.rag.query.transformer.CompressingQueryTransformer;
 import dev.langchain4j.service.AiServices;
-import dev.langchain4j.web.search.WebSearchEngine;
 import dev.langchain4j.web.search.tavily.TavilyWebSearchEngine;
 import devoxx.rag.AbstractDevoxxTest;
 import devoxx.rag.Assistant;
@@ -20,37 +16,48 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-public class _43_query_compression extends AbstractDevoxxTest {
+import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
+import static devoxx.rag._3_advanced_rag_ingestion._37_hypothetical_questions_embedding.getEmbeddingStore;
 
+public class _43_query_compression extends AbstractDevoxxTest {
 
     @Test
     public void shouldTestQueryCompression() {
 
-        // Let's create our web search content retriever.
+//        ContentRetriever webSearchContentRetriever = WebSearchContentRetriever.builder()
+//                .webSearchEngine(TavilyWebSearchEngine.builder().apiKey(System.getenv("TAVILY_API_KEY")).build())
+//                .maxResults(3)
+//                .build();
 
-        ContentRetriever webSearchContentRetriever = WebSearchContentRetriever.builder()
-                .webSearchEngine(TavilyWebSearchEngine.builder().apiKey(System.getenv("TAVILY_API_KEY")).build())
-                .maxResults(3)
-                .build();
+        EmbeddingStoreContentRetriever retriever = EmbeddingStoreContentRetriever.builder()
+            .embeddingStore(getEmbeddingStore())
+            .embeddingModel(getEmbeddingModel(MODEL_EMBEDDING_TEXT))
+            .build();
 
         RetrievalAugmentor retrievalAugmentor = DefaultRetrievalAugmentor.builder()
-                .queryRouter(new DefaultQueryRouter(createRetriever("/text/berlin.txt"),webSearchContentRetriever))
-                .queryTransformer(new CompressingQueryTransformer(getChatLanguageModel(MODEL_GEMINI_PRO)))
+//                .queryRouter(new DefaultQueryRouter(retriever, webSearchContentRetriever))
+                .contentRetriever(retriever)
+                .queryTransformer(new CompressingQueryTransformer(getChatLanguageModel(MODEL_GEMINI_FLASH)))
                 .build();
 
         Assistant assistant = AiServices.builder(Assistant.class)
-                .chatLanguageModel(getChatLanguageModel(MODEL_GEMINI_PRO))
+                .chatLanguageModel(getChatLanguageModel(MODEL_GEMINI_FLASH))
                 .retrievalAugmentor(retrievalAugmentor)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                 .build();
 
-        Response<AiMessage> hypotheticalAnswer = getChatLanguageModel(MODEL_GEMINI_PRO).generate(
-                List.of(
-                        SystemMessage.from("Provide answer to the question to the best knowledge"),
-                        UserMessage.from("What is the population of Berlin ?")
-                )
-        );
-        System.out.println(assistant.answer("What is the population of Berlin ?"));
+        List.of(
+            "What is the capital of Germany?",
+            "Tell me more about its geographical situation",
+            "How many people live there?"
+        ).forEach(query -> {
+            System.out.println("\n=== " + cyan(query) + " ===\n");
+
+            String answer = assistant.answer(query);
+
+            System.out.println(answer);
+        });
+
 
     }
 
