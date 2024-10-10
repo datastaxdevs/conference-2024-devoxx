@@ -101,6 +101,8 @@ public class _46_reranking_vertex extends AbstractDevoxxTest {
         EmbeddingStoreContentRetriever retriever = EmbeddingStoreContentRetriever.builder()
             .embeddingStore(embeddingStore)
             .embeddingModel(embeddingModel)
+            .maxResults(10)
+            .minScore(0.7)
             .build();
 
         RetrievalAugmentor retrievalAugmentor = DefaultRetrievalAugmentor.builder()
