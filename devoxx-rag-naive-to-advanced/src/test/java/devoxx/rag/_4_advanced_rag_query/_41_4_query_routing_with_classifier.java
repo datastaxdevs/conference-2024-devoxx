@@ -64,9 +64,8 @@ public class _41_4_query_routing_with_classifier extends AbstractDevoxxTest {
                     .taskType(VertexAiEmbeddingModel.TaskType.CLASSIFICATION) // classification!
                     .build();
 
-
             var classifier =
-                new EmbeddingModelTextClassifier<Category>(embeddingModel, Map.of(
+                new EmbeddingModelTextClassifier<>(embeddingModel, Map.of(
                     Category.DOG, List.of(
                         "something about dogs", "dog, dogs, and puppies", "dog species"
                     ),

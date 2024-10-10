@@ -47,21 +47,8 @@ public class _45_4_vectordb_metadata_filtering extends AbstractDevoxxTest {
                 .minScore(0.5)
                 .build();
 
-        // Enhance the content retriever to add meta data in the prompt
-        RetrievalAugmentor retrievalAugmentor = DefaultRetrievalAugmentor.builder()
-                .contentRetriever(contentRetriever)
-                // Query Transformation
-                .contentInjector(DefaultContentInjector
-                        .builder()
-                        .metadataKeysToInclude(asList("document_format",  "md5"))
-                        .build())
-
-                .build();
-
-        // configuring it to use the components we've created above.
         Assistant ai = AiServices.builder(Assistant.class)
-                //.contentRetriever(contentRetriever)
-                .retrievalAugmentor(retrievalAugmentor)
+                .contentRetriever(contentRetriever)
                 .chatLanguageModel(getChatLanguageModel(MODEL_GEMINI_PRO))
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                 .build();
@@ -69,5 +56,4 @@ public class _45_4_vectordb_metadata_filtering extends AbstractDevoxxTest {
         String response = ai.answer("What did Aristotle say about the good life?");
         System.out.println(response);
     }
-
 }

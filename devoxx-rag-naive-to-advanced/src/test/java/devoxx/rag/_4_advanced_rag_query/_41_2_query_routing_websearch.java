@@ -29,7 +29,8 @@ public class _41_2_query_routing_websearch extends AbstractDevoxxTest {
             .build();
 
         // Let's create a query router that will route each query to both retrievers.
-        QueryRouter queryRouter = new DefaultQueryRouter(createRetriever("/text/berlin.txt"),
+        QueryRouter queryRouter = new DefaultQueryRouter(
+            createRetriever("/text/berlin.txt"),
             webSearchContentRetriever);
 
         // Let's define our retrieval augmentor for advanced RAG

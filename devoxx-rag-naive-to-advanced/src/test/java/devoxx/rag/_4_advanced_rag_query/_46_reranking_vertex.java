@@ -111,11 +111,6 @@ public class _46_reranking_vertex extends AbstractDevoxxTest {
                 .build();
 
         interface Assistant {
-            @SystemMessage("""
-                Your role is to be a helpful AI assistant.
-                Reply concisely to users' questions, basing your answer only on the provided information.
-                Don't add extra information or details from your own knowledge.
-                """)
             String answer(String query);
         }
 
