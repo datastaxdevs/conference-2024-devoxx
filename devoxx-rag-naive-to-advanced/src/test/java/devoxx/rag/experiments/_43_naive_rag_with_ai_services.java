@@ -14,6 +14,7 @@ import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.Result;
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -21,13 +22,17 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.datastax.astra.internal.utils.AnsiUtils.cyan;
+import static com.datastax.astra.internal.utils.AnsiUtils.yellow;
+
 public class _43_naive_rag_with_ai_services {
-    public static void main(String[] args) throws IOException, URISyntaxException {
+    @Test
+    public void naiveRag() {
         // ===============
         // INGESTION PHASE
 
         Document document = FileSystemDocumentLoader.loadDocument(
-            Path.of("src/main/resources/cymbal-starlight-2024.pdf"),
+            Path.of("src/test/resources/pdf/cymbal-starlight-2024.pdf"),
             new ApachePdfBoxDocumentParser()
         );
 
@@ -83,13 +88,14 @@ public class _43_naive_rag_with_ai_services {
 
             Result<String> response = expert.ask(query);
 
-            System.out.printf("%n=== %s === %n%n %s %n%n", query, response.content());
+            System.out.printf(yellow("%n=== %s === %n%n"), query);
+            System.out.printf("%s %n%n", response.content());
 
             String sources = response.sources().stream()
                 .map(c -> c.textSegment().text())
                 .collect(Collectors.joining("\n---\n", "\n---\n", "\n---\n"));
 
-            System.out.println("SOURCES:\n" + sources);
+            System.out.println(cyan("SOURCES:\n" + sources));
         });
     }
 }
