@@ -55,6 +55,7 @@ public abstract class AbstractDevoxxTest {
     // Chat Models
     protected final String MODEL_GEMINI_PRO       = "gemini-1.5-pro";
     protected final String MODEL_GEMINI_FLASH     = "gemini-1.5-flash";
+    protected final String MODEL_GEMINI_20_FLASH  = "gemini-2.0-flash-001";
 
     // Embedding Models
     // https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/text-embeddings-api?hl=en&authuser=2

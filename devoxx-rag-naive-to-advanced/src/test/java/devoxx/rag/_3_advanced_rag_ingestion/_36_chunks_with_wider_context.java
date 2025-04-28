@@ -89,7 +89,8 @@ public class _36_chunks_with_wider_context extends AbstractDevoxxTest {
             """).apply(Map.of(
             "question", queryString,
             "extracts", searchResults.matches().stream()
-                .map(match -> match.embedded().metadata().getString(PARENT_CONTEXT_KEY))
+                .map(match ->
+                    match.embedded().metadata().getString(PARENT_CONTEXT_KEY))
                 .collect(Collectors.joining("\n---\n", "\n---\n", "\n---\n"))
         )).toUserMessage());
 

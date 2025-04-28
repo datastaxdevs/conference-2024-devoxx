@@ -28,38 +28,8 @@ public class _38_contextual_retrieval extends AbstractDevoxxTest {
 
     @Test
     public void contextualRetrieval() {
-        String text = """
-            Dimensionality Reduction: Simplifying Complex Data
-            
-            Dimensionality reduction is a technique used to simplify complex datasets by reducing the number of features (or dimensions) while preserving as much relevant information as possible. 
-            This process can be beneficial for several reasons:
-            
-            Computational Efficiency: High-dimensional data can be computationally expensive to process. By reducing dimensionality, you can significantly speed up algorithms and improve model performance.
-            Visualization: Visualizing high-dimensional data is challenging. Dimensionality reduction techniques can help to create more interpretable visualizations, making it easier to understand relationships and patterns within the data.
-            Noise Reduction: Redundant or irrelevant features can introduce noise into your data. Dimensionality reduction can help to eliminate or reduce the impact of noise.
-            Feature Engineering: By combining or transforming features, dimensionality reduction can create new, more informative features that can improve model performance.
-            
-            Common Dimensionality Reduction Techniques
-            
-            Principal Component Analysis (PCA): This is a popular technique that finds a new set of uncorrelated variables (principal components) that capture the most variance in the data.
-            Linear Discriminant Analysis (LDA): LDA is a supervised technique that seeks to find a projection that maximizes the separation between classes.
-            t-SNE: t-SNE is a nonlinear technique that is particularly effective for visualizing high-dimensional data in low-dimensional spaces.
-            Autoencoders: Autoencoders are neural networks that learn to compress and reconstruct data. They can be used for dimensionality reduction by training them to learn a lower-dimensional representation of the input data.
-            
-            When to Use Dimensionality Reduction:
-            
-            High-dimensional data: When you have a large number of features.
-            Computational efficiency: When you need to improve the speed of your algorithms.
-            Visualization: When you want to visualize complex data.
-            Noise reduction: When you suspect your data contains noise.
-            Feature engineering: When you want to create new, more informative features.
-            
-            Choosing the Right Technique:
-            
-            The best dimensionality reduction technique depends on your specific use case and the characteristics of your data. Consider factors such as the number of dimensions, the nature of the data (linear vs. nonlinear), and whether you have labeled data.
-            
-            By understanding dimensionality reduction and applying the appropriate techniques, you can simplify complex datasets, improve model performance, and gain valuable insights from your data.
-            """;
+
+        Document document = loadDocumentText("text/berlin.txt");
 
         var gemini = getChatLanguageModel(MODEL_GEMINI_PRO);
         var embeddingModel = getEmbeddingModel(MODEL_EMBEDDING_TEXT);
@@ -87,7 +57,7 @@ public class _38_contextual_retrieval extends AbstractDevoxxTest {
             .textSegmentTransformer(segment -> {
                 Response<AiMessage> generatedChunk = gemini.generate(promptTemplate.apply(Map.of(
                         "chunk", segment.text(),
-                        "wholeDocument", text))
+                        "wholeDocument", document.text()))
                     .toUserMessage());
 
                 System.out.println("\n" + "-".repeat(100));
@@ -97,9 +67,9 @@ public class _38_contextual_retrieval extends AbstractDevoxxTest {
                 return TextSegment.from(generatedChunk.content().text(), new Metadata().put(ORIGINAL, segment.text()));
             })
             .build();
-        ingestor.ingest(Document.from(text));
+        ingestor.ingest(document);
 
-        String queryString = "What are the main dimensionality reduction techniques?";
+        String queryString = "What's the population of Berlin?'";
 
         System.out.println("=".repeat(100) + cyan("\nQUESTION: ") + queryString);
 
@@ -120,6 +90,7 @@ public class _38_contextual_retrieval extends AbstractDevoxxTest {
 
         });
 
+
         // =================================
         // Ask Gemini to generate a response
 
@@ -132,15 +103,15 @@ public class _38_contextual_retrieval extends AbstractDevoxxTest {
             .collect(Collectors.joining("\n---\n", "\n---\n", "\n---\n"));
 
         UserMessage userMessage = PromptTemplate.from("""
-            You must answer the following queryString:
+            You must answer the following query:
             
-            {{queryString}}
+            {{query}}
             
             Base your answer on the following documentation extracts:
             
             {{extracts}}
             """).apply(Map.of(
-            "queryString", queryString,
+            "query", queryString,
             "extracts", concatenatedExtracts
         )).toUserMessage();
 

@@ -47,7 +47,7 @@ public class _37_hypothetical_questions_embedding extends AbstractDevoxxTest {
 
     public static EmbeddingStore<TextSegment> getEmbeddingStore() {
         if (collectionExists()) {
-            System.out.println(cyan("Collection already exists."));
+//            System.out.println(cyan("Collection already exists."));
             return new AstraDbEmbeddingStore(DATABASE.getCollection(COLLECTION_NAME));
         } else {
             System.out.println(cyan("Creating collection..."));
@@ -92,8 +92,6 @@ public class _37_hypothetical_questions_embedding extends AbstractDevoxxTest {
 
             for (TextSegment paragraphSegment : paragraphs) {
                 System.out.println(cyan("\n==== PARAGRAPH ==================================\n") + paragraphSegment.text());
-
-                try {Thread.sleep(2000);} catch (InterruptedException e) {}
 
                 Response<AiMessage> aiResult = gemini.generate(List.of(
                     SystemMessage.from("""

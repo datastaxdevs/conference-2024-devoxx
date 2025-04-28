@@ -23,7 +23,6 @@ public class _49_agentic_RAG extends AbstractDevoxxTest {
 
         String report = assistant.chat(
             "Write a report about the population of Berlin, its geographic situation, and its historical origins"
-//            "Write a report about the cultural aspects of Berlin"
         );
 
         System.out.println(magenta("\n>>> FINAL RESPONSE REPORT:\n"));
