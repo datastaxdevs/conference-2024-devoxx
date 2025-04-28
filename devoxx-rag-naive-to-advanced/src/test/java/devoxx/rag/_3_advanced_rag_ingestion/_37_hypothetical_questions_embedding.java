@@ -153,7 +153,7 @@ public class _37_hypothetical_questions_embedding extends AbstractDevoxxTest {
         searchResults.matches().forEach(match -> {
             double score = scoringModel.score(match.embedded().metadata().getString(PARAGRAPH_KEY), queryString).content();
 
-            System.out.println(yellow("\n-> Similarity: " + match.score() + " --- (Ranking score: " + score + ") ---\n") +
+            System.out.println(yellow("\n-> Similarity: " + match.score() + " --- (Ranking score: " + score + ")\n") +
                 "\n" + cyan("Embedded question: ") + match.embedded().text() +
                 "\n" + cyan("  About paragraph: ") + match.embedded().metadata().getString(PARAGRAPH_KEY));
         });

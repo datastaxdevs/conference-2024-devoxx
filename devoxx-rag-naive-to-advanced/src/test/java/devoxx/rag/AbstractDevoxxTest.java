@@ -180,7 +180,7 @@ public abstract class AbstractDevoxxTest {
             .projectId(System.getenv("GCP_PROJECT_ID"))
             .projectNumber(System.getenv("GCP_PROJECT_NUM"))
             .location(System.getenv("GCP_LOCATION"))
-            .model("semantic-ranker-512")
+            .model("semantic-ranker-default-004")
             .build();
     }
 
